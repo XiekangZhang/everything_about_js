@@ -40,7 +40,7 @@ carrot.name = "small carrot";
 console.log(carrot.name);
 
 // * import
-// ! import { capitalizeString } from "./string_function";
+import {capitalizeString} from "./string_function.js";
 
-// ! const cap = capitalizeString("hello!");
-// ! console.log(cap);
+const cap = capitalizeString("hello!");
+console.log(cap);
