@@ -25,11 +25,11 @@ The second way is to create _vue_ project, following the __Installation__ part.
 
 ## Useful directive
 - _v-html_: run a string as html
-- _v-bind_: dynamically bind one or more HTML attributes, or a component prop to an expression
+- _v-bind_: dynamically bind one or more HTML attributes, or a component prop to an expression, shorthand _:attr_
 - _v_if_
 - _v_for_
 - _v_on_: let users interact with your app. This directive is used to attach event listeners that
-invoke methods on our _Vue_ instances
+invoke methods on our _Vue_ instances, shorthand _@click_ (__v_on:argument.modifiers=value__)
 - _v_model_: make two-way binding between form input and app state
 
 ## Options API & Composition API
@@ -38,8 +38,11 @@ declaring reactive state variables directly in a function scope, and composing s
 to handle complexity. Composition API is more free-form, and requires understanding of how reactivity works in _Vue_
 to be used effectively. 
 ### Options API
-- _data_: 
-- _methods_:
+- _data_: declare reactive state of a component. These instance properties are only added when the instance is first
+created. It is possible to add a new property directly to _this_ without including it in _data_. However, properties
+added this way will not be able to trigger reactive updates. 
+- _methods_: add methods to a component instance
 - _mounted_:
+- _computed_: adding additional logic for data, _computed_ save the data into cache.
 ### Composition API
 todo
