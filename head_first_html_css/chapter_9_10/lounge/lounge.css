@@ -59,3 +59,46 @@ h2 {
 p.specials {
   color: red;
 }
+
+#elixirs {
+  border: thin solid #007e7e;
+  line-height: normal; /* 1 times its own font size*/
+  background-image: url(images/cocktail.gif);
+  background-repeat: repeat-x;
+  background-position: top left;
+  width: 200px;
+  padding: 0px 20px 0px 20px;
+  margin-top: 30px;
+  margin-left: 20px;
+  /*font-size: 50%;*/
+  text-align: center;
+}
+
+#elixirs h2 {
+  color: black;
+}
+
+#elixirs h3 {
+  color: #d12c47;
+}
+
+.cd {
+  font-style: italic;
+}
+
+.artist {
+  font-weight: bold;
+}
+
+#elixirs a:link {
+  color: #007e7e;
+}
+
+#elixirs a:visited {
+  color: #333333;
+}
+
+#elixirs a:hover {
+  background: #f88396;
+  color: #0d5353;
+}

@@ -9,6 +9,7 @@ ML: Markup-language --> describe the structure of web pages.
 - \<blockquote> --> longer quotes
 - block elements vs inline elements vs void elements
 - a domain name: a unique name that is used to locate your site. --> website without www
+- \<em> & \<strong>
 
 ![url structure](images/url.png)
 
@@ -29,12 +30,36 @@ ML: Markup-language --> describe the structure of web pages.
 - Images are stored on web servers right alongside HTML pages, so every image on the Web has its own URL, just like web pages do.
 - using alt attribute in \<img> to indicate information of one used image if the image can't be loaded.
 - adding width and height attributes into \<img> element to define the size of image
+- background-color: white; background-image: url(); background-repeat: repeat-x
+- background: white url() repeat-x
 
 ### css
 
 - @font-face{}
 - url() --> for linking to the source
+- @media screen and
+- @media print
 
 ### box
 
 ![box image](images/box.png)
+
+- padding-top: 0px; padding-right: 20px; padding-bottom: 30px; padding-left: 10px
+- padding: 0px 20px 30px 10px;
+- margin-top: 20px; margin-right: 20px; margin-bottom: 20px; margin-left: 20px
+- margin: 20px
+- margin-top: 0px; margin-right: 20px; margin-bottom: 0px; margin-left: 20px
+- margin: 0px 20px;
+- border-width: thin; border-style: solid; border-color: #007e7e;
+- border: thin solid #007e7e;
+
+### \<div> & \<span>
+
+- using \<div>s to mark sections
+- using \<span> to create a grouping of inline characters and elements
+
+### font
+
+- font: font-style font-variant font-weight font-size/line-height font-family
+- font-stype: italic
+- font-weight: bold
