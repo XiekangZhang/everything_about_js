@@ -63,3 +63,15 @@ ML: Markup-language --> describe the structure of web pages.
 - font: font-style font-variant font-weight font-size/line-height font-family
 - font-stype: italic
 - font-weight: bold
+
+### Layout and Positioning
+
+- when the browser is placing two inline elements next to each other --> margin1 + margin2
+- when the browser is placing two block elements on top of each other --> max(margin1, margin2)
+- clear: right --> no floating contentis allowed on the right of the element
+- Types of layout
+  - floating layout
+  - Jello layout --> liquid and frozen
+  - absolute layout
+  - table display layout
+- table display --> vertical-align: top, middle or bottom
