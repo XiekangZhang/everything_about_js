@@ -75,3 +75,10 @@ ML: Markup-language --> describe the structure of web pages.
   - absolute layout
   - table display layout
 - table display --> vertical-align: top, middle or bottom
+
+### HTML5 Markup --> better for \<div id="{**id_name**}">
+
+- header --> \<header>
+- sidebar --> \<aside>
+- \<section>: groups together a set of related content
+- footer --> \<footer>
