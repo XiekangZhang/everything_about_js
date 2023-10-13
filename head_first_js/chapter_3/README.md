@@ -10,3 +10,7 @@
 
 - GLOBALS live as long as the page. A global variable begins life when its JavaScript is loaded into the page.
 - LOCAL variables typically disappear when your function ends.
+
+## JavaScript objects
+
+- JavaScript objects are just a collection of properties.
