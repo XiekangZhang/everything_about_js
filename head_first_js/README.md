@@ -14,3 +14,7 @@
 ## JavaScript objects
 
 - JavaScript objects are just a collection of properties.
+
+## Getting to know the DOM
+
+- DOM stands for document object model --> interacting with your web page
