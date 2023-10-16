@@ -30,3 +30,8 @@
 - `null`: an object should be but one can't be created or found
 - `undefined`: a variable hasn't been initialized, or an object with a missing property, or an array with a missing value
 - `NaN != NaN`: return always TRUE --> RIGHT: `isNaN(myNum)`, WRONG: `myNum == NaN` --> `typeof 0/0` returns _number_
+
+## == vs ===
+
+- `==`: equality --> if the two values have the same type, just compare them; if the two values have different types, try to convert them into the same type and then compare them.
+- `===`: strict equality --> two values are strictly equal only if they have the same type and the same value.
