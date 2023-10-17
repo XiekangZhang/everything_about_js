@@ -35,3 +35,9 @@
 
 - `==`: equality --> if the two values have the same type, just compare them; if the two values have different types, try to convert them into the same type and then compare them.
 - `===`: strict equality --> two values are strictly equal only if they have the same type and the same value.
+
+## type conversions
+
+- `+`: does not convert string to number --> `3 + "4" = "34"` & `"4" + 3 = "43"` --> left-to-right associaticity --> `1+2+"pizzas" = "3 pizzas"` --> `3 + Number("4")`
+- `* | / | -`: try to convert the string to number
+- falsey: undefined, null, 0, empty string, and NaN
