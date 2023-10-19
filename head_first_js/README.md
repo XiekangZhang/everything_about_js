@@ -21,10 +21,6 @@
 - when you load a page into the browser, not only does the browser parse the HTML and then render it to the display, it also creates a set of objects that represent your markup. These objects are stored in the DOM.
 - When you're dealing with the DOM it's important to execute your code only after the page is fully loaded.
 
-## event handler = callback
-
-- `window.onload = function_name`: a function will be executed after full-loading of a page
-
 ## null vs undefined vs NaN
 
 - `null`: an object should be but one can't be created or found
@@ -41,3 +37,26 @@
 - `+`: does not convert string to number --> `3 + "4" = "34"` & `"4" + 3 = "43"` --> left-to-right associaticity --> `1+2+"pizzas" = "3 pizzas"` --> `3 + Number("4")`
 - `* | / | -`: try to convert the string to number
 - falsey: undefined, null, 0, empty string, and NaN
+
+## Event Handler
+
+- Whenever there's an event, there is an opportunity for your code to handle it.
+- A handler is just a function. When an event occurs, its handler function is called.
+- Event Handler = callback = listener
+
+### how the event object works
+
+- one _event object_ including general and specific information will be assigned to the event handler.
+  - `eventObj.target`: the object on which the event occurred
+  - `eventObj.type`: a string, like "click" or "load", that tells you what just happened
+  - `eventObj.timeStamp`: when your event happened
+  - `eventObj.keyCode`: what key the user just pressed
+  - `eventObj.clientX`: how far from the left side of the browser window the user clicked
+  - `eventObj.clientY`: how far from the top of the browser window the user clicked
+  - `eventObj.touches`: using a touch device? find out how many fingers are touching the screen
+
+### useful event handler
+
+- `window.onload = function_name`: a function will be executed after full-loading of a page
+- `setTimeout(function_name, time_in_mills)`
+- `setInterval(function_name, time_in_mills)`
