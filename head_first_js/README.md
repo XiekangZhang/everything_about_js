@@ -60,3 +60,8 @@
 - `window.onload = function_name`: a function will be executed after full-loading of a page
 - `setTimeout(function_name, time_in_mills)`
 - `setInterval(function_name, time_in_mills)`
+
+## function declaration vs function expression
+
+- function declaration: `var fly = function(...){// code here!}` --> a function is created and setup before the rest of the code gets evaluated
+- function expression: `function quack(...){// code here!}` --> a function is created as the code executes, at runtime
