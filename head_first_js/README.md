@@ -65,3 +65,6 @@
 
 - function declaration: `var fly = function(...){// code here!}` --> a function is created and setup before the rest of the code gets evaluated
 - function expression: `function quack(...){// code here!}` --> a function is created as the code executes, at runtime
+- you can assign functions to variables.
+- you can pass functions to functions.
+- you can return functions from functions.
