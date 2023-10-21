@@ -63,8 +63,8 @@
 
 ## function declaration vs function expression
 
-- function declaration: `var fly = function(...){// code here!}` --> a function is created and setup before the rest of the code gets evaluated
-- function expression: `function quack(...){// code here!}` --> a function is created as the code executes, at runtime
+- function declaration: `function doStuff() {};` --> The objects are initialized at compile time and available anywhere in your file. --> global scope
+- function expression: `var doStuff = function() {}` or `var doStuff = () => {}` --> The objects are initialized only when the interpreter reaches that line of code
 - you can assign functions to variables.
 - you can pass functions to functions.
 - you can return functions from functions.

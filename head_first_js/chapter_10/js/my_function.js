@@ -66,6 +66,26 @@ function createDrinkOrder(passenger) {
 }
 
 //
+function printPassenger(passenger) {
+  var message = passenger.name;
+  if (passenger.paid) {
+    message = message + " has paid";
+  } else {
+    message = message + " has not paid";
+  }
+  console.log(message);
+  return false;
+}
+
+function processPassengers(passengers, printPassenger) {
+  for (var i = 0; i < passengers.length; i++) {
+    printPassenger(passengers[i]);
+  }
+}
+
+processPassengers(passengers, printPassenger);
+
+//
 function createDinnerOrderFunction(passenger) {
   var orderFunction;
   if (passenger.ticket === "firstclass") {
