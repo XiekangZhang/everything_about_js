@@ -68,3 +68,13 @@
 - you can assign functions to variables.
 - you can pass functions to functions.
 - you can return functions from functions.
+
+## closure
+
+- A closure is a function together with a referencing environment.
+
+### Closing a function
+
+- A function typically has local variables in its code body, and it also might have variables that aren't defined locally, which we can free variables.
+- When we have an environment that has a value for each of the free variables, we say that we've closed the function.
+- And, when we take the function and the environment together, we say we have a closure.
