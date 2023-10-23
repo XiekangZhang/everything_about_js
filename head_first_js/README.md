@@ -81,7 +81,12 @@
 - You create a closure whenever you have a reference to a function that has free variables, and that function is executed outside of the context in which it was created.
 - Another way we can create a closure is to pass a function to a function. The function we pass will be executed in a completely different context than the one in which it was defined.
 
-### constructors (like class in Java)
+## constructors (like class in Java)
 
 - typeof vs instance of
 - you can modify function and property in an instance (`var fido = new Dog("Fido", "Mixed", 38); fido.owner = "Bob"; delete fido.weight`)
+
+## JavaScript class and inheritance
+
+- In fact, JavaScript doesn't have classes at all.
+- In JavaScript, objects inherit behavior from other objects, which we call prototypal inheritance, or inheritance based on prototypes.
