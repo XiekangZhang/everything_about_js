@@ -78,3 +78,5 @@
 - A function typically has local variables in its code body, and it also might have variables that aren't defined locally, which we can free variables.
 - When we have an environment that has a value for each of the free variables, we say that we've closed the function.
 - And, when we take the function and the environment together, we say we have a closure.
+- You create a closure whenever you have a reference to a function that has free variables, and that function is executed outside of the context in which it was created.
+- Another way we can create a closure is to pass a function to a function. The function we pass will be executed in a completely different context than the one in which it was defined.
