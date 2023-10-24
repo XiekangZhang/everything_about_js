@@ -89,4 +89,8 @@
 ## JavaScript class and inheritance
 
 - In fact, JavaScript doesn't have classes at all.
-- In JavaScript, objects inherit behavior from other objects, which we call prototypal inheritance, or inheritance based on prototypes.
+- In JavaScript, objects inherit behavior from other objects, which we call _prototypal inheritance_, or inheritance based on prototypes.
+- constructors contain always _prototype_ property
+- every constructor in JavaScript is inheritend from object, which contains some useful/standard properties.
+  - DO NOT OVERRIDE: _constructor, hasOwnProperty, isPrototypeOf, propertyIsEnumerable_
+  - OKAY TO OVERRIDE: _toString, toLocaleString, valueOf_

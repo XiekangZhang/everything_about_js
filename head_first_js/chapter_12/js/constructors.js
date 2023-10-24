@@ -11,7 +11,7 @@ function Dog(name, breed, weight) {
   };
 }
 
-var fido = new Dog("Fido", "Mixed", 38);
+var fido = new Dog("Fido", "Mixed", 38); // * by initializing the function will also be copied. --> more instances, more duplicated functions.
 var fluffy = new Dog("Fluffy", "Poodle", 30);
 var spot = new Dog("Spot", "Chihuahua", 10);
 
