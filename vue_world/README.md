@@ -18,7 +18,11 @@
   - `yarn add <node package name>`: install a new package
 - Vite.js as a builder management tool
   - Vite is a JavaScript development server which uses the native ES module and enables a hot-reload.
-- update node on linux
+- Intall nvm (node version managers)
+  - [nvm installing](https://github.com/nvm-sh/nvm#installing-and-updating)
+  - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/{version}/install.sh | bash`
+  - `eport NVM_DIR="$HOME/.nvm"`
+- Update node on linux
   - `nvm ls-remote`
   - `nvm install version.number`
 
