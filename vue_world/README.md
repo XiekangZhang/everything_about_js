@@ -18,6 +18,9 @@
   - `yarn add <node package name>`: install a new package
 - Vite.js as a builder management tool
   - Vite is a JavaScript development server which uses the native ES module and enables a hot-reload.
+- update node on linux
+  - `nvm ls-remote`
+  - `nvm install version.number`
 
 ## Create a new Vue application
 
@@ -55,3 +58,8 @@
 #### Life cycle hook
 
 - `created()`: Vue engine triggers after creating the component instance and before mounting it to the DOM element
+
+#### Two-way binding with v-model
+
+- one common scenario for two-way binding is the form input synchronization.
+- Binding `v-model` directive to a component's data model will automatically trigger updating the template when the data model changes, and vice versa.

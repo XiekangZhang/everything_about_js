@@ -39,6 +39,7 @@ const App = {
 };
 **/
 
+/** 
 const App = {
   template: `<div>Counter: {{ counter }} </div>`,
   data() {
@@ -55,6 +56,26 @@ const App = {
       clearInterval(internal);
     }, 5000);
   },
+}; 
+**/
+
+// * v-bind
+const App = {
+  template: `
+  <label for="name">
+  Write your name {{ name }}:
+  <input
+  v-model="name"
+  placeholder="Enter your name"
+  id="name">
+  </label>`,
+  data() {
+    return {
+      name: "",
+    };
+  },
+  
 };
+
 const app = createApp(App);
 app.mount("#app");
