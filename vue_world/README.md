@@ -57,6 +57,7 @@
 
 #### Structure of vue file
 
+- `template:`, `data() { return {}}` and `methods: {}`
 - `data() {return {states}}` vs `{{}}` in `template`
 
 #### Life cycle hook
@@ -67,3 +68,45 @@
 
 - one common scenario for two-way binding is the form input synchronization.
 - Binding `v-model` directive to a component's data model will automatically trigger updating the template when the data model changes, and vice versa.
+- `v-model.lazy` vs `v-model` vs `v-model.number` vs `v-model.trim`
+  - `v-model.lazy`: only track changes triggered by the `onChange` event
+  - `v-model`: real time changes tracking
+  - `v-model.number`: transfer the input value into a number
+  - `v-model.trim`: a string free from whitespaces
+
+#### Binding reactive data and passing props data with `v-bind` or `:`
+
+- `v-model` for two-way binding, `{{}}` for one-way data injection
+- `v-bind`: one-way binding data to another element as attributes' values or other Vue components as props
+
+#### Iterating over data collection using `v-for`
+
+- `v-for = "elem in list"`
+
+#### Adding event listener to elements with `v-on` & Handling events better with `v-on` event modifiers
+
+- event has usually 3 main phases
+  - Capturing: the event travels from the top down to the target element
+  - Target: the event is at the target element
+  - Bubbling: the event travels from the target element up to its ancestor
+- `v-on` (in short `@`) to bind a DOM event to a listener.
+- `v-on:<event>.<modifier>`
+- event._modifier_: `.stop`, `.prevent`, `.self`, `.once`, `.capture`, `.passive`
+
+#### Detecting keyboard events with key code modifiers
+
+- `keydown` + [`.tab`, `.delete`, `.esc`, `.space`] or key combination [`.shift`, `.ctrl`, `.alt`, `.meta` + keyCode], `keyCode`
+- `@click.shift.exact`: makes sure the click event fires when the user presses the only Shift key while clicking the button.
+
+#### Conditional rendering elements with `v-if`, `v-else`, and `v-else-if`
+
+#### Conditional displaying elements with `v-show`
+
+#### Dynamically displaying HTML code with `v-html`
+
+#### Displaying text content with `v-text`
+
+#### Optimizing renders with `v-once` and `v-memo`
+
+- `v-once` helps render static content and preserves performance from the re-rendering static element. Vue renders elements with this directive presented only once and would not update it regardless of any re-rendering.
+- `v-memo` memorizes a block of parts (or components) within a template conditionally
