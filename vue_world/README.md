@@ -26,6 +26,11 @@
   - `nvm ls-remote`
   - `nvm install version.number`
 
+### Install primevue
+
+- `npm install primevue` or `yarn add primevue`
+  - add following configurations `import PrimeVue from 'primevue/config' app.use(PrimeVue)`
+
 ## Create a new Vue application
 
 - `npm init vue@latest`
