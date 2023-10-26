@@ -1,6 +1,6 @@
 import "./assets/main.css";
 
-import { createApp } from "vue/dist/vue.esm-bundler.js";
+import { createApp, h } from "vue/dist/vue.esm-bundler.js";
 //import App from './App.vue'
 
 // * internal component template
@@ -252,8 +252,85 @@ const Once = {
     return {
       name: "Maya",
     };
-  }
+  },
 };
+
+// v-memo
+const Memo = {
+  template: `
+  <ul>
+      <li
+        v-for="image in images"
+        :key="image.id"
+        :style=" selected === image.id ? {border: '1px solid blue'} : {}"
+        @click="selected = image.id"
+        v-memo="[selected === image.id]"
+      >
+        <img :src="image.url" />
+        <div>{{ image.title }}</div>
+      </li>
+    </ul>
+  `,
+  data() {
+    return {
+      selected: null,
+      images: [
+        {
+          id: 1,
+          title: "Cute cat",
+          url: "https://res.cloudinary.com/mayashavin/image/upload/w_100,h_100,c_thumb/TheCute%20Cat",
+        },
+        {
+          id: 2,
+          title: "Cute cat no 2",
+          url: "https://res.cloudinary.com/mayashavin/image/upload/w_100,h_100,c_thumb/cute_cat",
+        },
+        {
+          id: 3,
+          title: "Cute cat no 3",
+          url: "https://res.cloudinary.com/mayashavin/image/upload/w_100,h_100,c_thumb/cat_me",
+        },
+        {
+          id: 4,
+          title: "Just a cat",
+          url: "https://res.cloudinary.com/mayashavin/image/upload/w_100,h_100,c_thumb/cat_1",
+        },
+      ],
+    };
+  },
+};
+
+// * render() function
+const inputElem = h("input", {
+  placehoder: "Enter some text",
+  type: "text",
+  id: "text-input",
+});
+
+// support JSX
+//const name = "JSX"
+//const JSXComp = <div>This is a {name} component</div>
+
+const comp = h(
+  "div",
+  {
+    id: "my-test-comp",
+    style: {
+      border: "1px solid red",
+    },
+  },
+  inputElem
+  //MyHeading
+  //JSXComp
+);
+
+// * need to be analyzed
+export function MyHeading(props, context) {
+  const heading = `h${props.level}`;
+  return h(heading, context.$attrs, context.$slots);
+}
+MyHeading.props = ["prop-one", "prop-two"];
+MyHeading.emits = ["event-one", "event-two"];
 
 const app = createApp({
   template: `<List />
@@ -261,9 +338,24 @@ const app = createApp({
   <Conditional />
   <HTML />
   <Placehoder />
-  <Once />`,
-  components: { List, Collection, Conditional, HTML, Placehoder, Once },
+  <Once />
+  <Memo />`,
+  components: { List, Conditional, HTML, Placehoder, Once, Memo },
+  // render() function replace the options api
+  /**render() {
+    return h(
+      "div",
+      { id: "test-id" },
+      "This is a render function to create a div with id test-id"
+    );
+  }, **/
+  /**render() {
+    return comp;
+  },**/
 });
 
+app.component("Collection", Collection);
+// use 3rd party component
+app.use();
 //const app = createApp(App);
 app.mount("#app");

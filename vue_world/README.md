@@ -115,3 +115,19 @@
 
 - `v-once` helps render static content and preserves performance from the re-rendering static element. Vue renders elements with this directive presented only once and would not update it regardless of any re-rendering.
 - `v-memo` memorizes a block of parts (or components) within a template conditionally
+
+### Using render function --> create VNode (createElement)
+
+- `h(component, {/*props*/}, children)`
+
+### Functional component
+
+- A functional component is a stateless component. Unlike a standard component, which works with options API, a functional component is a function, denoting the render function for that component.
+- stateless --> no access to the `this` instance.
+- Registering a component globally: `Vue.component(alias_name, component instance)`
+
+### Create a plugin
+
+- `/* plugins/samplePlugin.ts */`
+- `export default {install(Vue, options) {}}`
+- then in `main.js`: `Vue.use(samplePlugin)`
