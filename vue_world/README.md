@@ -131,3 +131,23 @@
 - `/* plugins/samplePlugin.ts */`
 - `export default {install(Vue, options) {}}`
 - then in `main.js`: `Vue.use(samplePlugin)`
+
+---
+
+## Vue.js (officially documentation from vuejs.org)
+
+### Essentials
+
+#### Reactivity Fundamentals
+
+- `const obj = ref(...)`: obj.value to get the value
+- better for the vue to track the mutation between variables and the DOM
+- when you mutate reactive state, the DOM is updated automatically. However, it should be noted that the DOM updates are not applied synchroniously. To wait for the DOM update to complete after a stage change, you can use the `nextTick()` global API.
+- There is another way to declare reactive state, with the `reactive()` API. Unlike a ref which wraps the inner value in a special object, `reactive()` makes an object itself reactive.
+  - `import { reactive } from 'vue'`
+  - `const state = reactive({ count: 0 })`
+  - only the proxy is reactive. Therefore, the best practice when working with Vue's reactivity system is to _exclusively use the proxied versions of your state_.
+
+#### Computed Properties
+
+- for complex logic that includes reactive data, it is recommended to use a _computed property_ instead of using cluttered template. --> `computed()`
