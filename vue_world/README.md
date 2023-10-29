@@ -151,3 +151,101 @@
 #### Computed Properties
 
 - for complex logic that includes reactive data, it is recommended to use a _computed property_ instead of using cluttered template. --> `computed()`
+- the difference between `computed()` and `function()` is that _computed properties are cached based on their reactive dependencies_. A computed property will only re-evaluate when some of its reactive dependencies have changed.
+- Don't make async requests or mutate the DOM inside a computed getter.
+
+#### List rendering
+
+- use `return [...numbers].reverse()` instead of `numbers.reverse()` to avoid mutating the original array in a computed property.
+- It's not recommended to use `v-if` and `v-for` on the same element due to implicit precedence. Since `v-if` has a higher priority than `v-for`. That means the `v-if` condition will not have access to varibales from the scope of the `v-for`. --> solution: moving `v-for` to a wrapping `<template>` tag.
+
+#### Event handling
+
+- Accessing Event argument in inline handlers by passing in the `$event` variable
+- Event modifiers: `.stop`, `.prevent`, `.capture`, `.self`, `.once`, `.passive`
+  - `.stop`: stop event's propagation
+  - `.prevent`: no longer reload the page
+  - `.capture`: use capture mode when adding the event listener
+  - `.self`: only trigger handler if event.target is the element itself
+  - `.once`: trigger the event only once
+  - `.passive`: touch event listeners for improving performance on mobile devices
+- Key Modifiers: `keyup`, `keydown`
+- Mouse Button Modifiers: `.left`, `.right`, `.middle`
+
+#### Form Input Bindings
+
+- `v-model`
+
+#### Lifecycle Hooks
+
+- `onMounted()`: can be used to run code after the component has finished the initial rendering and created the DOM nodes.
+- `onUpdated()`
+- `onUnmounted()`
+
+#### Watchers
+
+- `watch()` to trigger a callback whenever a piece of reactive state changes
+- one `watch(_function_name_, ......)` function example
+
+```javascript
+watch(
+  question,
+  async (newQueston, oldQuestion) => {
+    if (newQuestion.indexOf("?") > -1) {
+      answer.value = "Thinking...";
+      try {
+        const res = await fetch("https://yesno.wtf/api");
+        anwser.value = (await res.json()).answer;
+      } catch (error) {
+        answer.value = "Error! Could not reach the API. " + error;
+      }
+    }
+  },
+  { immediate: true }
+);
+```
+
+- `watch()` first argument can be different type of reactive sources: it can be a ref, a reactive object, a getter function, or an array of multiple sources
+
+```javascript
+// getter
+watch(
+  () => x.value + y.value,
+  (sum) => {
+    console.log(`sum of x + y is: ${sum}`);
+  }
+);
+```
+
+- `watchEffect()` uses exactly the same reactive state as the source
+
+```javascript
+watchEffect(async () => {
+  const response = await fetch(`api/vi/${todoId.value}`);
+  data.value = await response.json();
+});
+```
+
+- If you want to access the DOM in a watcher callback after Vue has updated it, you need to specify the `flush: 'POST'` or `watchPostEffect()`
+- `watch()` is usually worked with synchronous circumstances. If you create an asynchronous `watch()`, try to use
+
+```javascript
+// data to be loaded asynchronously
+const data = ref(null);
+watchEffect(() => {
+  if (data.value) {
+    // do something when data is loaded
+  }
+});
+```
+
+#### Components Basics
+
+- To use a child component, we need to import it in the parent component. Then use `<Component_Name/>` in template slot.
+- Props (`defineProps([...])`) are custom attributes you can register on a component.
+- `$emit()` to trigger an event from a child component to its parent component. To declare it by using `defineEmits([...])` in the child component.
+- `<component :is="tabs[currentTab]"></component>` to dynamically render a component based on a variable.
+
+### Components In-depth
+
+#### Registration
