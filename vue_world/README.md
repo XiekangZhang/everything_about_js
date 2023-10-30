@@ -314,4 +314,148 @@ defineProps({
 
 #### Provide / Inject
 
-- ![Provide/Inject --> Dependency Injection vs Props]("./images/provide_inject.png")
+- ![Provide/Inject --> Dependency Injection vs Props](./images/provide_inject.png)
+- `provide(/* key */ 'message', /* value */ 'hello!')` --> `inject(/* key */ 'message')`
+
+#### Async Components
+
+```javascript
+import { defineAsyncComponent } from "vue";
+
+const AsyncComp = defineAsyncComponent(() => {
+  return new Promise((resolve, reject) => {
+    // ... Load component from server
+    resolve(/* loaded component */);
+  });
+});
+```
+
+- Asynchronous operations inevitably involve loading and error states
+
+```javascript
+const AsyncComp = defineAsyncComponent({
+  loader: () => import("./AsyncComponent.vue"),
+  loadingComponent: LoadingComponent,
+  errorComponent: ErrorComponent,
+  delay: 200,
+  timeout: 3000,
+});
+```
+
+### Reusability
+
+#### Composables
+
+- a composable is a function that leverages the Vue's Composition API to encapsulate and reuse _stateful logic_.
+- when doing async data fetching, we often need to handle different states: loading, success, and error.
+
+```javascript
+// fetch.js
+import { ref, watchEffect, toValue } from "vue";
+
+export function useFetch(url) {
+  const data = ref(null);
+  const error = ref(null);
+
+  const fetchData = () => {
+    // reset state before fetching..
+    data.value = null;
+    error.value = null;
+
+    fetch(toValue(url))
+      .then((res) => res.json())
+      .then((json) => (data.value = json))
+      .catch((err) => (error.value = err));
+  };
+
+  watchEffect(() => {
+    fetchData();
+  });
+
+  return { data, error };
+}
+```
+
+```javascript
+// call fetch.js
+<script setup>
+  import {useFetch} from './fetch.js'; const url = ref("/initial-url") const{" "}
+  {(data, error)} = useFetch(url) url.value = "/new-url"
+</script>
+```
+
+#### Custom Directives
+
+- In `<script setup>`, any camelCase variable that starts with the `v` prefix can be used as a custom directive.
+
+#### Plugins
+
+- `app.use(plugin, options)`: use a plugin globally
+- `const myPlugin = {install(app, options) {}}`: create a plugin
+
+### Build-in Components
+
+- Transition: `<Transition>` and `<TransitionGroup>` for applying animations to elements when they are inserted, updated, or removed from the DOM.
+- KeepAlive: `<KeepAlive>` is a built-in component that allows us to conditionally cache component instances when dynamically switching between multiple components.
+
+```javascript
+<!-- Inactive components will be cached! -->
+<KeepAlive :max="10">
+  <component :is="activeComponent" />
+</KeepAlive>
+
+<!-- Define KeepAlive Component -->
+<script setup>
+import { onActivated, onDeactivated } from 'vue'
+
+onActivated(() => {
+  // called on initial mount
+  // and every time it is re-inserted from the cache
+})
+
+onDeactivated(() => {
+  // called when removed from the DOM into the cache
+  // and also when unmounted
+})
+</script>
+```
+
+- Teleport: `<Teleport>` is a built-in component that allows us to "teleport" a part of a component's template into a DOM node that exists outside the DOM hierarchy of that component.
+
+## Vue Router
+
+- To make building Single Page Appliation with Vue.js
+
+```javascript
+// 1. Define route components.
+// These can be imported from other files
+const Home = { template: "<div>Home</div>" };
+const About = { template: "<div>About</div>" };
+
+// 2. Define some routes
+// Each route should map to a component.
+// We'll talk about nested routes later.
+const routes = [
+  { path: "/", component: Home },
+  { path: "/about", component: About },
+];
+
+// 3. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = VueRouter.createRouter({
+  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+  history: VueRouter.createWebHashHistory(),
+  routes, // short for `routes: routes`
+});
+
+// 5. Create and mount the root instance.
+const app = Vue.createApp({});
+// Make sure to _use_ the router instance to make the
+// whole app router-aware.
+app.use(router);
+
+app.mount("#app");
+
+// Now the app has started!
+```
