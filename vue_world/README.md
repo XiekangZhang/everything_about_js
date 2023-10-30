@@ -249,3 +249,69 @@ watchEffect(() => {
 ### Components In-depth
 
 #### Registration
+
+- Global Registration: `app.component('component-name', {...})` in `main.js`
+- Local Registration: `<script setup> import ComponentA from './ComponentA.vue' </script>` and then `<template><ComponentA/></template>`
+- Local Registration options API: `export default {components: {ComponentA}, setup() {}}`
+
+#### Props
+
+- `defineProps(['foo'])` and `props: ['foo']`
+- All props form a one-way-down binding between the child property and the parent one: when the parent property updates, it will flow down to the child, but not the other way around.
+- Props validation
+
+```javascript
+defineProps({
+  propA: Number,
+  propB: [String, Number],
+  propC: {
+    type: String,
+    required: true,
+  },
+  propD: {
+    type: Number,
+    default: 100,
+  },
+  propE: {
+    type: Object,
+    default: () => ({ message: "hello" }),
+  },
+  propF: {
+    validator: (value) => {
+      return ["success", "warning", "danger"].includes(value);
+    },
+  },
+  propG: {
+    type: Function,
+    default() {
+      return "Default function";
+    },
+  },
+});
+```
+
+#### Component Events
+
+```javascript
+<!-- MyComponent -->
+<button @click="$emit('someEvent', parameters)">Click me</button>
+
+<!-- Parent -->
+<MyComponent @some-event="handleEvent" />
+```
+
+- `const emit = defineEmits(['someEvent'])` then call the emit by using `emit('someEvent', parameters)`
+
+#### Component v-model
+
+- `$attrs`
+- `import {useAttrs} from 'vue' const attrs = userAttrs()`
+
+#### Slots
+
+- The `<slot>` element is a _slot outlet_ that indicates where the parent-provided _slot content_ should be rendered.
+- `v-slot` has a dedicated shorthand `#`
+
+#### Provide / Inject
+
+- ![Provide/Inject --> Dependency Injection vs Props]("./images/provide_inject.png")
