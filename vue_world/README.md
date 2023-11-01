@@ -132,6 +132,30 @@
 - `export default {install(Vue, options) {}}`
 - then in `main.js`: `Vue.use(samplePlugin)`
 
+## Composing components
+
+### VUE single file component
+
+- `template`, `script`, `style`
+- `export default {}` --> `import ComponentName from './ComponentName.vue'`
+- life hooks:
+  - `setup(props, context)`: runs once before Vue instantiates the component
+  - `beforeCreate()`: runs before the Vue renderer creates the component instance --> component is initialized but hasn't triggered the `data()` function or `computed()` properties --> Use case: when you need to load external logic without modifying the component's data.
+  - `created()`: runs after the Vue engine creates the component instance, but hasn't mounted it to the DOM yet. --> Use case: when there is a need for external loading data into the component. This hook is preferable to the `mounted` one for reading or writing data from external resources.
+  - `beforeMount()`: runs after `created`. The Vue render has created the component instance and compiled its template for rendering before the first render of the component.
+  - `mounted()`: runs after the first render of the component. The component's rendered DOM node is available for you to access through the `$el` property. --> Use case: when you need to perform any DOM manipulation or access the component's DOM node `this.$el`.
+  - `beforeUpdate()`: before re-render with new local data state
+  - `updated()`
+  - `beforeUnmount()`: `$el` is still available
+  - `unmounted()`
+
+### Computed properties
+
+- `computed()`: The Vue engine automatically caches the value of computed properties and re-computes the value only when related reactive data changes.
+
+### Watchers
+
+
 ---
 
 ## Vue.js (officially documentation from vuejs.org)

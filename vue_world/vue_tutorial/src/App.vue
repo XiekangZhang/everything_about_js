@@ -1,47 +1,42 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'MyFistComponent',
+  data() {
+    return {
+      message: ""
+    }
+  },
+  setup() {
+    console.log('setup hook triggered!')
+    return {}
+  },
+  beforeCreate() {
+    console.log('beforeCreate hook triggered!')
+  },
+  created() {
+    console.log('created hook triggered!')
+  },
+  beforeMount() {
+    console.log('beforeMount hook triggered!')
+  },
+  mounted() {
+    console.log('mounted hook triggered!')
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate hook triggered!')
+  },
+  updated() {
+    console.log('updated hook triggered!')
+  },
+  beforeUnmount() {
+    console.log('beforeUnmount hook triggered!')
+  },
+});
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <h2 class="heading">I am {{ message }}</h2>
+  <input v-model="message" type="text" placeholder="Enter your name" />
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>

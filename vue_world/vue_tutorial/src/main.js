@@ -1,7 +1,7 @@
 import "./assets/main.css";
 
 import { createApp, h } from "vue/dist/vue.esm-bundler.js";
-//import App from './App.vue'
+import App from './App.vue'
 
 // * internal component template
 /** 
@@ -332,7 +332,7 @@ export function MyHeading(props, context) {
 MyHeading.props = ["prop-one", "prop-two"];
 MyHeading.emits = ["event-one", "event-two"];
 
-const app = createApp({
+/** const app = createApp({
   template: `<List />
   <Collection />
   <Conditional />
@@ -352,10 +352,10 @@ const app = createApp({
   /**render() {
     return comp;
   },**/
-});
+//}); 
 
-app.component("Collection", Collection);
+//app.component("Collection", Collection);
 // use 3rd party component
-app.use();
-//const app = createApp(App);
+//app.use();
+const app = createApp(App);
 app.mount("#app");
