@@ -26,6 +26,10 @@
   - `nvm ls-remote`
   - `nvm install version.number`
 
+### Install vuetify
+
+- `npm create vuetify`
+
 ### Install primevue
 
 - `npm install primevue` or `yarn add primevue`
@@ -155,7 +159,6 @@
 
 ### Watchers
 
-
 ---
 
 ## Vue.js (officially documentation from vuejs.org)
@@ -206,7 +209,7 @@
 - `onUpdated()`
 - `onUnmounted()`
 
-#### Watchers
+#### Watchers from vue official site
 
 - `watch()` to trigger a callback whenever a piece of reactive state changes
 - one `watch(_function_name_, ......)` function example
