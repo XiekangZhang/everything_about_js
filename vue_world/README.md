@@ -158,11 +158,10 @@
 - `computed()`: The Vue engine automatically caches the value of computed properties and re-computes the value only when related reactive data changes.
 
 ### Watchers
-- Watchers allow you to programmatically watch for changes in any reactive data property of a component and handle them. 
+
+- Watchers allow you to programmatically watch for changes in any reactive data property of a component and handle them.
 - watcher object's fields
   - handler: the callback function to trigger whenever the target data's value changes
   - deep: a boolean value to indicate whether the watcher should watch for changes in nested data properties
   - immediate: a boolean value to indicate whether the watcher should trigger the callback function immediately after mounting the component
   - flush: pre | post --> indicates the timing order of the handler's execution. By default, Vue triggers the handler before updating the Vue component
----
-
