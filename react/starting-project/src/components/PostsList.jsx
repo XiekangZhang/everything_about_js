@@ -4,7 +4,7 @@ import NewPost from "./NewPost.jsx";
 import {useState} from "react";
 import Modal from "./Modal.jsx";
 
-function PostsList() {
+function PostsList({isPosting, onStopPosting}) {
     const [currentBody, setCurrentBody] = useState("");
     const [currentAuthor, setCurrentAuthor] = useState("");
 
@@ -16,17 +16,16 @@ function PostsList() {
         setCurrentAuthor(event.target.value);
     }
 
-    return (
-        <>
-            <Modal>
+    return (<>
+        {isPosting &&
+            <Modal onHideModel={onStopPosting}>
                 <NewPost onBodyChange={changeBodyHandler} onAuthorChange={changeAuthorHandler}/>
-            </Modal>
-            <ul className={styles.posts}>
-                <Post author={currentAuthor} body={currentBody}/>
-                <Post author="Li" body="Nice tutorial!"/>
-            </ul>
-        </>
-    );
+            </Modal>}
+        <ul className={styles.posts}>
+            <Post author={currentAuthor} body={currentBody}/>
+            <Post author="Li" body="Nice tutorial!"/>
+        </ul>
+    </>);
 }
 
 export default PostsList;
