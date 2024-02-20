@@ -1,42 +1,66 @@
 import Post from "./Post.jsx";
 import styles from "./PostsList.module.css";
-import NewPost from "./NewPost.jsx";
-import Modal from "./Modal.jsx";
-import { useState } from "react";
+import {useLoaderData} from "react-router-dom";
 
-function PostsList({ isPosting, onStopPosting }) {
-  const [posts, setPosts] = useState([]);
+function PostsList() {
+    /**
+    const [posts, setPosts] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+        **/
+    const posts = useLoaderData();
 
-  function addPostHandler(postData) {
-    setPosts((prevPosts) => {
-      return [postData, ...prevPosts];
-    });
-  }
+    // ! React Ways to Fetch Data
+    /**
+    useEffect(() => {
+        async function fetchPosts() {
+            setIsFetching(true);
+            const response = await fetch("http://localhost:8080/posts");
+            const data = await response.json();
 
-  return (
-    <>
-      {isPosting && (
-        <Modal onHideModel={onStopPosting}>
-          <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
-        </Modal>
-      )}
+            if (!response.ok) {
+                throw new Error(data.message || "Could not fetch posts.");
+            }
 
-      {posts.length > 0 && (
-        <ul className={styles.posts}>
-          {posts.map((post) => (
-            <Post author={post.author} body={post.body} key={post.body} />
-          ))}
-        </ul>
-      )}
+            setPosts(data.posts);
+            setIsFetching(false);
+        }
 
-      {posts.length === 0 && (
-        <div style={{ textAlign: "center", color: "white" }}>
-          <h2>There are no posts yet.</h2>
-          <p>Start adding some!</p>
-        </div>
-      )}
-    </>
-  );
+        fetchPosts();
+    }, []);
+
+    function addPostHandler(postData) {
+        fetch("http://localhost:8080/posts", {
+            method: "POST",
+            body: JSON.stringify(postData),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        setPosts((prevPosts) => {
+            return [postData, ...prevPosts];
+        });
+    }
+     **/
+
+    return (
+        <>
+            {posts.length > 0 && (
+                <ul className={styles.posts}>
+                    {posts.map((post) => (
+                        <Post author={post.author} body={post.body} key={post.body}/>
+                    ))}
+                </ul>
+            )}
+
+            {posts.length === 0 && (
+                <div style={{textAlign: "center", color: "white"}}>
+                    <h2>There are no posts yet.</h2>
+                    <p>Start adding some!</p>
+                </div>
+            )}
+
+        </>
+    );
 }
 
 export default PostsList;
