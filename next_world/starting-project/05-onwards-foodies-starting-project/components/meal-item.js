@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./meal-item.module.css";
 import Link from "next/link";
 
-export default function MealItem({ title, slug, image, summary, creater }) {
+export default function MealItem({ title, slug, image, summary, creator }) {
   return (
     <article className={styles.meal}>
       <header>
@@ -11,7 +11,7 @@ export default function MealItem({ title, slug, image, summary, creater }) {
         </div>
         <div className={styles.headerText}>
           <h2>{title}</h2>
-          <p>by {creater}</p>
+          <p>by {creator}</p>
         </div>
       </header>
       <div className={styles.content}>
