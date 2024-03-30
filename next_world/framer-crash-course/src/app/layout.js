@@ -4,6 +4,7 @@ import BasicsOfMotion from "@/components/BasicsOfMotion";
 import Gestures from "@/components/Gestures";
 import AnimationControls from "@/components/AnimationControls";
 import ViewBasedAnimations from "@/components/ViewBasedAnimations";
+import ScrollAnimations from "@/components/ScrollAnimations";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,9 @@ export default function RootLayout({ children }) {
         {/* < BasicsOfMotion/> */}
         {/* <Gestures/> */}
         {/* <AnimationControls/> */}
-        <ViewBasedAnimations />
-        {children}
+        {/* <ViewBasedAnimations/> */}
+        <ScrollAnimations />
+        {/* {children} */}
       </body>
     </html>
   );
