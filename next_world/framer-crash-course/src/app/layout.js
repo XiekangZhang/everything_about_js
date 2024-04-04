@@ -18,10 +18,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {/* < BasicsOfMotion/> */}
-        {/* <Gestures/> */}
+        <Gestures/>
         {/* <AnimationControls/> */}
         {/* <ViewBasedAnimations/> */}
-        <ScrollAnimations />
+        {/*<ScrollAnimations />*/}
         {/* {children} */}
       </body>
     </html>
