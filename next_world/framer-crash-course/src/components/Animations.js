@@ -1,5 +1,6 @@
 "use client";
 import {AnimatePresence, motion} from 'framer-motion';
+import {useState} from 'react';
 
 export default function Animations() {
     const variants = {
@@ -17,11 +18,16 @@ export default function Animations() {
             }
         }
     }
+    const itemVariants = {
+        open: {opacity: 1, y: 0, transition: {type: "spring", stiffness: 300, damping: 24}},
+        closed: {opacity: 0, y: 20, transition: {duration: 0.2}}
+    }
+    const [isOpen, setIsOpen] = useState(false);
     return (
         <>
             <motion.div
                 animate={{x: [null, 100, 0]}}
-                transition={{ease: "easeOut", duration: 2}}
+                transition={{ease: "easeOut", duration: 2, repeat: Infinity, repeatType: "reverse"}}
                 initial={{x: 0}}
             >
                 <h2>Hold me!</h2>
@@ -55,6 +61,58 @@ export default function Animations() {
                 </motion.div>
             </AnimatePresence>
 
+            <motion.nav
+                style={{
+                    filter: "drop-shadow(1px 1px 1px #4700b3)",
+                    width: "300px",
+                    background: "gray",
+                }}
+                initial={false}
+                animate={isOpen ? "open" : "closed"}
+            >
+                <motion.button
+                    whileTap={{scale: 0.97}}
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    Menu
+                    <motion.div
+                        variants={{
+                            open: {rotate: 180},
+                            closed: {rotate: 0}
+                        }}
+                        transition={{duration: 0.2}}
+                        style={{originY: 0.55}}
+                    >
+                    </motion.div>
+                </motion.button>
+                <motion.ul
+                    variants={{
+                        open: {
+                            clipPath: "insert(0% 0% 0% 0% round 10px)",
+                            transition: {
+                                type: "spring",
+                                bounce: 0,
+                                duration: 0.7,
+                                delayChildren: 0.3,
+                                staggerChildren: 0.05
+                            }
+                        },
+                        closed: {
+                            clipPath: "insert(10% 50% 90% 50% round 10px)",
+                            transition: {
+                                type: "spring",
+                                bounce: 0,
+                                duration: 0.3
+                            }
+                        }
+                    }}
+                    style={{pointerEvents: isOpen ? "auto" : "none"}}
+                >
+                    <motion.li variants={itemVariants}>Home</motion.li>
+                    <motion.li variants={itemVariants}>Contact</motion.li>
+                    <motion.li variants={itemVariants}>Others</motion.li>
+                < /motion.ul>
+            </motion.nav>
         </>
     )
 }
