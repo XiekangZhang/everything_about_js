@@ -5,8 +5,10 @@ import {
   useMotionValue,
   useTransform,
   animate,
+  useDragControls,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useFollowPointer } from "./use-follow-pointer";
 
 export default function Animations() {
   // Part 1
@@ -48,6 +50,18 @@ export default function Animations() {
     hidden: { opacity: 0, x: -100 },
   };
 
+  // Part 4
+  const dragControls = useDragControls();
+  function startDrag(event) {
+    dragControls.start(event, { snapToCursor: true });
+  }
+
+  // Part 5
+  const scrollRef = useRef(null);
+
+  // Part 6
+  const ref = useRef(null);
+  const { x, y } = useFollowPointer(ref);
 
   return (
     <>
@@ -58,6 +72,7 @@ export default function Animations() {
           duration: 2,
           repeat: Infinity,
           repeatType: "reverse",
+          type: "tween",
         }}
         initial={{ x: 0 }}
       >
@@ -153,6 +168,68 @@ export default function Animations() {
         </motion.ul>
       </motion.nav>
 
+      {/* Part 4 */}
+      <motion.button
+        whileHover={{ scale: 1.2, transition: { duration: 1 } }}
+        whileTap={{ scale: 0.9 }}
+      >
+        Click Me!
+      </motion.button>
+      <motion.div
+        onHoverStart={() => console.log("Hover starts")}
+        onHoverEnd={() => console.log("Hover ends")}
+      >
+        <button>Hover Me!</button>
+      </motion.div>
+      <motion.input whileFocus={{ scale: 1.2 }} />
+      <motion.div onPan={(e, pointInfo) => {}}>
+        <button>click me 3</button>
+      </motion.div>
+      <motion.div
+        drag
+        dragConstraints={{ left: 0, right: 300 }}
+        dragElastic={0.2}
+        dragMomentum={false}
+        dragSnapToOrigin={true}
+        dragTransition={{ bounceStiffness: 600, bounceDamping: 10 }}
+      >
+        <h1>drag me</h1>
+      </motion.div>
+
+      <div onPointerDown={startDrag} />
+      <motion.div drag="x" dragControls={dragControls}>
+        <h1>drag me 1</h1>
+      </motion.div>
+
+      {/* Part 5 */}
+      <div ref={scrollRef} style={{ overflow: "scroll" }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ root: scrollRef }}
+        >
+          <h1>Scroll Me</h1>
+        </motion.div>
+      </div>
+
+      {/* Part 6 */}
+      <motion.div
+        ref={ref}
+        style={{
+          width: 100,
+          height: 100,
+          background: "red",
+          borderRadius: "50%",
+          position: "absolute",
+        }}
+        animate={{ x, y }}
+        transition={{
+          type: "spring",
+          damping: 3,
+          stiffness: 50,
+          restDelta: 0.001,
+        }}
+      />
     </>
   );
 }
