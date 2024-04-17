@@ -64,6 +64,22 @@ export default function Animations() {
   const ref = useRef(null);
   const { x, y } = useFollowPointer(ref);
 
+  // Part 7
+  const items = [
+    {
+      name: "Item 1",
+      isSelected: false,
+    },
+    {
+      name: "Item 2",
+      isSelected: false,
+    },
+    {
+      name: "Item 3",
+      isSelected: true,
+    },
+  ];
+
   return (
     <>
       <motion.div
@@ -238,7 +254,6 @@ export default function Animations() {
           restDelta: 0.001,
           mass: 10,
           restSpeed: 0.05,
-          restDelta: 0.05,
         }}
       />
       <motion.div
@@ -254,6 +269,14 @@ export default function Animations() {
       >
         <h1>Hold me!</h1>
       </motion.div>
+
+      {/* Part 7 */}
+      {items.map((item) => (
+        <motion.li layout>
+          {item.name}
+          {item.isSelected && <motion.div layoutId="underline" />}
+        </motion.li>
+      ))}
     </>
   );
 }
