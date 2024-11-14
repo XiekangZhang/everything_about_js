@@ -6,6 +6,8 @@ import AnimationControls from "@/components/AnimationControls";
 import ViewBasedAnimations from "@/components/ViewBasedAnimations";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import Animations from "@/components/Animations";
+import HorizontalScroll from "@/components/horizontalScroll";
+import Motion3d from "@/components/motion3d";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -24,7 +26,9 @@ export default function RootLayout({children}) {
         {/* <ViewBasedAnimations/> */}
         {/*<ScrollAnimations />*/}
         {/* {children} */}
-        <Animations/>
+        {/* <Animations/> */}
+        {/* <HorizontalScroll /> */}
+        <Motion3d />
         </body>
         </html>
     );
