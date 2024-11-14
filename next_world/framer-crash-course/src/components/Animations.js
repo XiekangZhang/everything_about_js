@@ -238,7 +238,6 @@ export default function Animations() {
           restDelta: 0.001,
           mass: 10,
           restSpeed: 0.05,
-          restDelta: 0.05,
         }}
       />
       <motion.div
