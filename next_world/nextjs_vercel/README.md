@@ -66,6 +66,47 @@
 
 ### React core concepts
 
-- Components
-- Props
+- Components: User interfaces can be broken down into smaller building blocks called components
+  - React components should be **capitalized** to distinguish them from plain HTML and javascript
+  - You use React components the same way you'd use regular HTML tags, with **angle brackets <>**
+
+```html
+<script type="text/jsx">
+  const app = document.getElementById("app");
+  function Header() {
+    return (<h1>Develop. Preview. Ship.</h1>);
+  }
+  function HomePage() {
+    return (
+      <div>
+        <Header />
+        <p>Next.js is the React framework for production</p>
+      </div>
+    )
+  }
+  const root = ReactDOM.createRoot(app);
+  root.render(<HomePage />);
+</script>
+```
+
+- Props: you can pass pieces of information as properties to React components. These are called props. _props_ is an object, you can use object destructuring to explicitly name the values of props inside your function parameters. To use the props, you need to use **curly braces {}**.
+
+```jsx
+function HomePage() {
+  const names = ["Ada Lovelace", "Grace Hopper", "Margaret Hamilton"];
+  return (
+    <div>
+      <Header title="React" />
+      <p>Next.js is the React framework for production</p>
+      <Header />
+      <ul>
+        {names.map((name) => (
+          <li key={name}>{name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
 - State
