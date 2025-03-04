@@ -169,3 +169,98 @@ import { inter } from "./fonts";
   ![nested routing](./pics/routing.png)
 
 ### Navigating Between Pages
+
+- in production, whenever _\<Link>_ components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background.
+
+```tsx
+import Link from "next/link";
+// ...
+export default function NavLinks() {
+  return (
+    <>
+      {links.map((link) => {
+        const LinkIcon = link.icon;
+        return (
+          <Link
+            key={link.name}
+            href={link.href}
+            className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
+          >
+            <LinkIcon className="w-6" />
+            <p className="hidden md:block">{link.name}</p>
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+```
+
+- use _usePathname()_ hook to get the current active path (active links)
+
+```tsx
+"use client";
+
+import {
+  UserGroupIcon,
+  HomeIcon,
+  DocumentDuplicateIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
+
+// ...
+
+export default function NavLinks() {
+  const pathname = usePathname();
+
+  return (
+    <>
+      {links.map((link) => {
+        const LinkIcon = link.icon;
+        return (
+          <Link
+            key={link.name}
+            href={link.href}
+            className={clsx(
+              "flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
+              {
+                "bg-sky-100 text-blue-600": pathname === link.href,
+              },
+            )}
+          >
+            <LinkIcon className="w-6" />
+            <p className="hidden md:block">{link.name}</p>
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+```
+
+### Fetching Data
+
+#### API layer
+
+- APIs are an intermediary layer between your application code and database. There are a few cases where you might use an API:
+  - if you're using third-party services that provide an API
+  - if you're fetching data from the client, you want to have an API layer that runs on the server to avoid exposing your database secrets to the client
+
+#### Database queries
+
+- when you're creating a full-stack application, you'll also need to write logic to interact with your database. There are a few cases where you have to write database queries:
+  - when creating your API endpoints, you need to write logic to interact with your database
+  - if you are using **REACT SERVER COMPONENTS**, you can skip the API layer and query your database directly without risking exposing your database secrets to the client
+
+#### What are request waterfalls?
+
+- A "waterfall" refers to a sequence of network requests that depend on the completion of previous requests. In the case of data fetching, each request can only begin once the previous request has returned data
+
+#### Parallel data fetching
+
+- A common way to avoid waterfalls is to initiate all data requests at the same time - in parallel
+- In JavaScript, you can use the _Promise.all()_ or _Promise.allSettled()_ functions to initiate all promises at the same time
+
+### Static and Dynamic Rendering
