@@ -264,3 +264,13 @@ export default function NavLinks() {
 - In JavaScript, you can use the _Promise.all()_ or _Promise.allSettled()_ functions to initiate all promises at the same time
 
 ### Static and Dynamic Rendering
+
+- static rendering: static rendering is useful for UI with **no data** or **data that is shared across users**, such as a static blog post or a product page. It might not be a good fit for a dashboard that has personalized data which is regularly updated.
+- dynamic rendering: With dynamic rendering, content is rendered on the server for each user at **request time** (when the user visits the page). There are a couple of benefits of dynamic rendering:
+  - **real-time data**: dynamic rendering allows your application to display real-time or frequently updated data.
+  - **user-specific content**: it's easier to serve personalized content, such as dashboards or user profiles, and update he data based on user interaction.
+  - **request time information**: dynamic rendering allows you to access information that can only be known at request time, such as cookies or the URL search parameters.
+
+### Streaming
+
+// todo: learn promise
