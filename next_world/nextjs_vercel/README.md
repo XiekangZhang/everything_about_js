@@ -273,4 +273,44 @@ export default function NavLinks() {
 
 ### Streaming
 
+- streaming is a data transfer technique that allows you to break down a rounte into smaller "chunks" and progressively stream them from the server to the client as they become ready. By streaming, you can prevent slow data requests from blocking your whole page.
+  This allows the user to see and interact with parts of the page without waiting for all the data to load before any UI can be shown to the user.
+- you can add a _loading.tsx_ to contain a loading skeleton while the data is being fetched.
+
+#### Route Groups
+
+- route groups allow you to organize files into logical groups without affecting the URL path structure.
+- file structure `/dashboard/(overview)/page.tsx` translates to URL path `/dashboard`
+
+#### Streaming a component
+
+- you can use **React Suspense** to specify a component. **Suspense** allows you to defer rendering parts of your application until some condition is met.
+
+```tsx
+<Suspense fallback={<LoadingSkeletion />}>
+  <Component /> // Make component async
+</Suspense>
+```
+
+### Partial Prerenderung
+
+- Partial Prerenderung is only availbale with the Next.js canary release. `pnpm install next@canary`
+
+```tsx
+// next.config.mjs
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = {
+  experimental: {
+    ppr: "incremental",
+  },
+};
+
+// in your component
+import SideNav form '@/app/ui/dashboard/sideNav';
+
+export const experimental_ppr = true;
+```
+
+### Adding Search and Pagination
+
 // todo: learn promise
