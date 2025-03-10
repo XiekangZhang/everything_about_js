@@ -313,4 +313,98 @@ export const experimental_ppr = true;
 
 ### Adding Search and Pagination
 
+- `useSearchParams` - allows you to access the parameters of the current URL. For example, the search params for the URL `/dashboard?page=1&query=pending` would look like this: `{page: '1', query: 'pending'}`
+- `usePathname` - lets you read the current URL's pathname. For example, for the route `/dashboard/invoice`, `usePathname` would return `/dashboard/invoice`
+- `useRouter` - enables navigation between routes within client components programmatically.
+
+```tsx
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+
+const searchParams = useSearchParams();
+const pathname = usePathname();
+const { replace } = useRouter();
+...
+const params = new URLSearchParams(searchParams);
+replace(`${pathname}?${params.toString()}`);
+```
+
+- **Debouncing** is a programming practice that limits the rate at which a function can fire.
+
+```tsx
+pnpm i use-debounce
+
+import { useDebouncedCallback } from "use-debounce";
+
+const handleSearch = useDebouncedCallback((term) => {
+  console.log(`Searching... ${term}`);
+
+  const params = new URLSearchParams(searchParams);
+  if (term) {
+    params.set('query', term);
+  } else {
+    params.delete('query');
+  }
+  replace(`${pathname}?${params.toString()}`);
+}, 300); // function will fire after 300ms
+```
+
+### Mutating Data
+
+- React Server Actions allow you to run asynchronous code directly on the server. An advantage of invoking a Server Action within a Server Component is progressive enhancement - forms work even if JavaScript has not yet loaded on the client. For example, without slower internet connections.
+
+```tsx
+// Server Component
+export default function Page() {
+  // Action
+  async function create(formData: FormData) {
+    "use server";
+
+    // Logic to mutate data...
+  }
+
+  // Invoke the action using the "action" attribute
+  return <form action={create}>...</form>;
+}
+```
+
+- You can do this with the `revalidatePath` function from `next/cache` to clear cache and trigger a new request to the server.
+
+```tsx
+"use server";
+
+export async function createInvoice(formData: FormData) {
+  const rawFormData = {
+    customerId: formData.get("customerId"),
+    amount: formData.get("amount"),
+    status: formData.get("status"),
+  };
+  // Test it out:
+  console.log(rawFormData);
+  revalidatePath("/dashboard/invoices");
+  redirect("/dashboard/invoices");
+}
+```
+
+### Handling Errors
+
+- you cann add `error.tsx` and `not-found.tsx` in folder
+
+## SEO
+
+### robots.txt
+
+- a text file that tells search engine crawlers which pages or files the crawler can or can't request from your site. It's a way to control what search engines can and can't index on your site.
+
+```txt
+//robots.txt
+
+# Block all crawlers for /accounts
+User-agent: *
+Disallow: /accounts
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+```
+
 // todo: learn promise
