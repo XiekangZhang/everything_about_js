@@ -1,4 +1,4 @@
-# Next vercel Tutorial
+# Next related Tutorial
 
 ## React Foundations
 
@@ -407,4 +407,10 @@ User-agent: *
 Allow: /
 ```
 
-// todo: learn promise
+---
+
+## React
+
+- React component starts with a capital letter.
+- The `export default` keywords speficy the main component in the file.
+- adding styles `<img className='avatar' src={user.imageUrl}>`
