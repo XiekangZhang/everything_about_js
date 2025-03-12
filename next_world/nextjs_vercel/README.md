@@ -414,3 +414,48 @@ Allow: /
 - React component starts with a capital letter.
 - The `export default` keywords speficy the main component in the file.
 - adding styles `<img className='avatar' src={user.imageUrl}>`
+- syntax:
+
+  ```tsx
+  // conditional rendering
+  <>
+    <div>{isLoggedIn ? <LogoutButton /> : <LoginButton />}</div>
+    <div>{isLoggedIn && <AdminPanel />}</div>
+  </>
+
+  // redndering lists
+  <>
+    <ul>
+      {numbers.map((number) => (
+        <li key={number.toString()}>{number}</li>
+      ))}
+    </ul>
+  </>
+
+  // responding to events
+  <button onClick={handleClick}>Click me</button>
+
+  // updating the screen
+  import { useState } from "react";
+  function MyButton() {
+    const [count, setCount] = useState(0);
+
+    function handleClick() {
+      setCount(count + 1);
+    }
+
+    return (
+      <button onClick={handleClick}>
+        Clicked {count} times
+      </button>
+    )
+  }
+
+  // sharing data between components
+  ```
+
+### React Hooks // TODO
+
+- state hooks:
+  - `useState` declares a state variable that you can update directly
+  - `useReducer` declares a state variable with the update logic insider a reducer function
