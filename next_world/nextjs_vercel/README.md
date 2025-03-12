@@ -454,8 +454,207 @@ Allow: /
   // sharing data between components
   ```
 
-### React Hooks // TODO
+### React Hooks
 
-- state hooks:
-  - `useState` declares a state variable that you can update directly
-  - `useReducer` declares a state variable with the update logic insider a reducer function
+#### state hooks
+
+- `useState` declares a state variable that you can update directly
+- `useReducer` declares a state variable with the update logic insider a reducer function
+
+  ```tsx
+  import { useReducer } from "react";
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "incremented_age": {
+        return { name: state.name, age: state.age + 1 };
+      }
+      case "changed_name": {
+        return { name: action.nextName, age: state.age };
+      }
+    }
+    throw Error("Unknown action: " + action.type);
+  }
+
+  const initialState = { name: "Taylor", age: 25 };
+
+  export default function Form() {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    function handleButtonClick() {
+      dispatch({ type: "incremented_age" });
+    }
+
+    function handleInputChange(e) {
+      dispatch({ type: "changed_name", nextName: e.target.value });
+    }
+
+    return (
+      <>
+        <input value={state.name} onChange={handleInputChange} />
+        <button onClick={handleButtonClick}>Increment age</button>
+        <p>
+          {state.name} is {state.age} years old
+        </p>
+      </>
+    );
+  }
+  ```
+
+#### context hooks
+
+- `useContext` lets a component receive information from distant parents without passing it as props
+
+  ```tsx
+  import { createContext, useContext, useState } from "react";
+
+  const ThemeContext = createContext("light");
+
+  export default function MyApp() {
+    const [theme, setTheme] = useState("light");
+
+    return (
+      <>
+        <ThemeContext.Provider value={theme}>
+          <Form />
+        </ThemeContext.Provider>
+        <Button
+          onClick={() => {
+            setTheme(theme === "dark" ? "light" : "dark");
+          }}
+        >
+          Toggle theme
+        </Button>
+      </>
+    );
+  }
+
+  function Form({ children }) {
+    return (
+      <Panel title="Welcome">
+        <Button>Sign up</Button>
+        <Button>Log in</Button>
+      </Panel>
+    );
+  }
+
+  function Panel({ title, children }) {
+    const theme = useContext(ThemeContext);
+    const className = "panel-" + theme;
+    return (
+      <section className={className}>
+        <h1>{title}</h1>
+        {children}
+      </section>
+    );
+  }
+
+  function Button({ children, onClick }) {
+    const theme = useContext(ThemeContext);
+    const className = "button-" + theme;
+    return (
+      <button className={className} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+  ```
+
+#### ref hooks: _Refs_ let a component hold some information that isn't used for rendering. They are useful when you need to work with non-React systems, such as the built-in browser APIs
+
+- `useRef` declares a ref
+
+  ```tsx
+  import { useState, useRef } from "react";
+
+  export default function Stomwatch() {
+    const [startTime, setStartTime] = useState(null);
+    const [now, setNow] = useState(null);
+    const intervalRef = useRef(null);
+
+    function handleStart() {
+      setStartTime(Date.now());
+      setNow(Date.now());
+
+      clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(() => {
+        setNow(Date.now());
+      }, 10);
+    }
+
+    function handleStop() {
+      clearInterval(intervalRef.current);
+    }
+
+    let secondsPassed = 0;
+    if (startTime != null && now != null) {
+      secondsPassed = (now - startTime) / 1000;
+    }
+
+    return (
+      <>
+        <h1>Time passed: {secondsPassed.toFixed(3)} </h1>
+        <button onClick={handleStart}>Start</button>
+        <button onClick={handleStop}>Stop</button>
+      </>
+    );
+  }
+  ```
+
+- `useImperativeHandle` lets you customize the ref exposed by your component
+
+#### effect hooks
+
+- `useEffect` connects a component to an external system. Effects are an "escape hatch" from the React paradigm and your Effect will re-run after every re-render of the component
+
+```tsx
+import { useState, useEffect } from "react";
+
+export default function App() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    function handleMove(e) {
+      setPosition({ x: e.clientX, y: e.clientY });
+    }
+    window.addEventListener("pointermove", handleMove);
+    return () => {
+      window.removeEventListener("pointermove", handleMove);
+    };
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        backgroundColor: "pink",
+        borderRadius: "50%",
+        opacity: 0.6,
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        pointerEvents: "none",
+        left: -20,
+        top: -20,
+        width: 40,
+        height: 40,
+      }}
+    />
+  );
+}
+```
+
+- `useLayoutEffect` fires before the browser repaints the screen
+- `useInsertionEffect` fires before React makes changes to the DOM
+
+#### Performance hooks
+
+To skip calculations and unnecessary re-rendering, use one of these hooks:
+- `useMemo` lets you cache the result of an expensive calculation
+- `useCallback` lets you cache a function definition before passing it down to an potimized component
+
+To prioritize rendering, use one of these hooks:
+- `useTransition` lets you mark a state transition as non-blocking and allow other updates to interrupt it
+- `useDeferredValue` lets you defer updating a non-critical part of the UI and let other parts update first
+
+// TODO: window function
+// TODO: setInterval & clearInterval
+// TODO: Promise
