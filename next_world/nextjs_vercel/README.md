@@ -450,8 +450,6 @@ Allow: /
       </button>
     )
   }
-
-  // sharing data between components
   ```
 
 ### React Hooks
@@ -648,13 +646,17 @@ export default function App() {
 #### Performance hooks
 
 To skip calculations and unnecessary re-rendering, use one of these hooks:
+
 - `useMemo` lets you cache the result of an expensive calculation
 - `useCallback` lets you cache a function definition before passing it down to an potimized component
 
 To prioritize rendering, use one of these hooks:
+
 - `useTransition` lets you mark a state transition as non-blocking and allow other updates to interrupt it
 - `useDeferredValue` lets you defer updating a non-critical part of the UI and let other parts update first
 
 // TODO: window function
 // TODO: setInterval & clearInterval
 // TODO: Promise
+// TODO: JavaScript + React Datastructures
+// TODO: events
