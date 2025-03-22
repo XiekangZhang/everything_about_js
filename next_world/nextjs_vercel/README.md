@@ -655,6 +655,35 @@ To prioritize rendering, use one of these hooks:
 - `useTransition` lets you mark a state transition as non-blocking and allow other updates to interrupt it
 - `useDeferredValue` lets you defer updating a non-critical part of the UI and let other parts update first
 
+## Next
+
+### Introduction
+
+- You can set cookies in _Server Actions_ or _Route Handlers_ using the _cookies_ function
+
+  - _Server Actions_ are asynchronous functions that are executed on the server. They can be called in Server and Client Components to handle form submissions and data mutations in Next.js applications
+  - Server actions can be invoked using the `action` attribute in a form element
+
+  ```ts
+  // formData object for server action
+  export default function Page() {
+    async function createInvoice(formData: FormData) {
+      "use server";
+      const rawFormData = {
+        customerId: formData.get("customerId"),
+        amount: formData.get("amount"),
+        status: formData.get("status"),
+      }
+      // logic
+    }
+    return <form action={createInvoice}>...</form>
+  }
+
+  // 
+  ```
+
+## Others
+
 // TODO: window function
 // TODO: setInterval & clearInterval
 // TODO: Promise
