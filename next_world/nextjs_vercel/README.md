@@ -227,7 +227,7 @@ export default function NavLinks() {
               "flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
               {
                 "bg-sky-100 text-blue-600": pathname === link.href,
-              },
+              }
             )}
           >
             <LinkIcon className="w-6" />
@@ -661,11 +661,11 @@ To prioritize rendering, use one of these hooks:
 
 - You can set cookies in _Server Actions_ or _Route Handlers_ using the _cookies_ function
 
-  - _Server Actions_ are asynchronous functions that are executed on the server. They can be called in Server and Client Components to handle form submissions and data mutations in Next.js applications
+  - _Server Actions_ are asynchronous functions that are executed on the server. They can be called in Server and Client Components to handle **form** submissions and **data mutations** in Next.js applications
   - Server actions can be invoked using the `action` attribute in a form element
 
-  ```ts
-  // formData object for server action
+  ```tsx
+  // formData object for server action --> formData Object
   export default function Page() {
     async function createInvoice(formData: FormData) {
       "use server";
@@ -673,14 +673,63 @@ To prioritize rendering, use one of these hooks:
         customerId: formData.get("customerId"),
         amount: formData.get("amount"),
         status: formData.get("status"),
-      }
+      };
       // logic
     }
-    return <form action={createInvoice}>...</form>
+    return <form action={createInvoice}>...</form>;
   }
 
-  // 
+  // passing additional arguments
+  // client-component.tsx
+  ("use client");
+
+  import { updateUser } from "./actions";
+
+  export function UserProfile({ userId }: { userId: string }) {
+    const updateUserWithId = updateUser.bind(null, userId);
+
+    return (
+      <form action={updateUserWithId}>
+        <input name="name" type="text" />
+        <button type="submit">Update</button>
+      </form>
+    );
+  }
+
+  // actions.tsx
+  ("use server");
+
+  export async function updateUser(userId: string, formData: FormData) {}
   ```
+
+- server actions are not limited to `<form>` and can be invoked from event handlers, `useEffect`, third-party libraries, and other form elements like `<button>`
+- you can trigger a form submission programmatically using the `requestSubmit()` method. For example, when the user submits a form using the _ctrl_ + _enter_ keyboard shortcut, you can listen for the `onKeyDown` event
+
+  ```tsx
+  "use client";
+
+  export function Entry() {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === "Enter" || e.key === "NumpadEnter")
+      ) {
+        e.preventDefault();
+        e.currentTarget.form?.requestSubmit();
+      }
+    };
+
+    return (
+      <div>
+        <textarea name="entry" rows={20} required onKeyDown={handleKeyDown} />
+      </div>
+    );
+  }
+  ```
+
+- use `const [state, formAction] = useActionState(action_function, {message: ''})` and `const { pending } = useFormStatus()` together
+
+### Getting Started
 
 ## Others
 
