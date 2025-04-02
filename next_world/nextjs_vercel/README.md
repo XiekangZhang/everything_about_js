@@ -729,9 +729,191 @@ To prioritize rendering, use one of these hooks:
 
 - use `const [state, formAction] = useActionState(action_function, {message: ''})` and `const { pending } = useFormStatus()` together
 
-### Getting Started
+### Layouts and Pages
+
+- A **page** is UI that is rendered on a specific route.
+- A **layout** is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender. It contains `{children}` prop.
+- `[slug]` creates a special dynamic route segment used to generate multiple pages from data.
+
+### Fetching Data
+
+#### Server Component
+
+```tsx
+// With the fetch API
+const data = await fetch("https://api...");
+const posts = await data.json();
+// With an ORM or database
+const allPosts = await db.select().from(posts);
+```
+
+#### Client Component
+
+```javascript
+// You can use React's use hook to stream data from the server to client
+// -- server side
+import Posts from "@/app/ui/posts";
+import { Suspense } from "react";
+
+export default function Page() {
+  // Don't await the data fetching function
+  const posts = getPosts();
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Posts posts={posts} />
+    </Suspense>
+  );
+}
+
+// -- client side
+'use client'
+import { use } from 'react'
+
+export default function Posts({ posts }) {
+  const posts = use(posts)
+
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+```
+
+#### Streaming
+
+- `dynamicIO` should be enabled in your application. The `dynamicIO` flag is an experimental feature in Next.js that causes data fetching operations in the App Router to be excluded from pre-renders unless they are explicitly cached.
+
+```tsx
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = {
+  experimental: {
+    dynamicIO: true,
+  },
+};
+
+export default nextConfig;
+```
+
+- when using `async/await` in Server Components, Next.js will opt into **dynamic rendering**. This means the data will be fetched and rendered on the server for every user request. If there are any slow data requests, the whole route will be blocked from rendering- To improve the initial load time and user experience, you can use streaming to break up the page's HTML into smaller chunks and progressively send those chunks from the server to the client.
+
+- There are two ways you can implement streaming in your application:
+
+  - with the _loading.js_ file
+
+  ```tsx
+  // loading.js
+  export default function Loading() {
+    ...
+    return <div>Loading...</div>;
+  }
+
+  // same as using the <Suspense> component
+  <Suspense fallback={<Loading />}>
+  ```
+
+  - with the `<Suspense>` component
+
+  ```tsx
+  import { Suspense } from "react";
+  import BlogList from "@/components/BlogList";
+  import BlogListSkeleton from "@/components/BlogListSkeleton";
+
+  export default function BlogPage() {
+    return (
+      <div>
+        {/* This content will be sent to the client immediately */}
+        <header>
+          <h1>Welcome to the Blog</h1>
+          <p>Read the latest posts below.</p>
+        </header>
+        <main>
+          {/* Any content wrapped in a <Suspense> boundary will be streamed */}
+          <Suspense fallback={<BlogListSkeleton />}>
+            <BlogList />
+          </Suspense>
+        </main>
+      </div>
+    );
+  }
+  ```
+
+### Updating Data
+
+- usually steps to use server functions
+  1. create a server function
+  ```tsx
+  "use server";
+  export async function createPost(formData) {
+    const title = formData.get("title");
+    const content = formData.get("content");
+  }
+  ```
+  2. create a form element or button `onClick`
+  ```tsx
+  export function Form() {
+    return (
+      <form action={createPost}>
+        <input type="text" name="title" />
+      </form>
+    );
+  }
+  ```
+  3. show a pending state
+  ```tsx
+  const [state, action, pending] = useActionState(createPost, {
+    message: "Creating post...",
+  });
+  const { pending } = useFormStatus();
+  ```
+  4. revalidate the cache by using `revalidatePath()` or `revalidateTag()`
+  5. redirect by needing to use `redirect()` function
+### Error Handling
 
 ## Others
+
+- to safely allow images from remote servers
+
+  ```ts
+  // next.config.js
+  import { NextConfig } from "next";
+  const config: NextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "s3.amazonaws.com",
+          port: "",
+          pathname: "/my-bucket/**",
+          search: "",
+        },
+      ],
+    },
+  };
+
+  export default config;
+  ```
+
+- how to optimize fonts
+
+  ```ts
+  import { Geist } from "next/font/google";
+
+  const geist = Geist({
+    subsets: ["latin"],
+  });
+
+  export default function Layout({ children }: { children: React.ReactNode }) {
+    return (
+      <html lang="en" className={geist.className}>
+        <body>{children}</body>
+      </html>
+    );
+  }
+  ```
 
 // TODO: window function
 // TODO: setInterval & clearInterval
