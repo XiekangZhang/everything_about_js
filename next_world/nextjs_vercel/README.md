@@ -871,7 +871,95 @@ export default nextConfig;
   ```
   4. revalidate the cache by using `revalidatePath()` or `revalidateTag()`
   5. redirect by needing to use `redirect()` function
+
 ### Error Handling
+
+- Handling expected errors
+
+  - Server Actions
+
+    ```tsx
+    "use client";
+    import { useActionState } from "react";
+    import { createPost } from "./actions";
+
+    const initialState = { message: "" };
+    export function Form() {
+      const [state, formAction, pending] = useActionState(createPost, initialState);
+
+      return (
+        <form action={formAction}>
+        {state?.message && <p arial-live="polite">{state.message}</p>}
+        <button disabled={pending}>
+          {pending ? "Creating..." : "Create"}
+        </form>
+      )
+    }
+    ```
+
+  - Server Components
+
+    ```tsx
+    // when fetching data inside of a Server Component, you can use the response to conditionally render an error message or redirect
+    export default async function Page() {
+      const res = await fetch("https://...");
+      const data = await res.json();
+
+      if (!res.ok) {
+        return <p>{data.error}</p>;
+      }
+      return <p>{data.message}</p>;
+    }
+    ```
+
+  - `notFound()` function with `not-found.js`
+
+- Handling uncaught exceptions
+
+  - Nested error boundaries
+
+    ```tsx
+    // create an error boundary by adding an error.js file inside a route segment and exporting a React component
+    import { useEffect } from "react";
+    export default function Error({ error, reset }) {
+      useEffect(() => {
+        console.error(error);
+      }, [error]);
+      return (
+        <div>
+          <h2>Something went wrong!</h2>
+          <button onClick={() => reset()}>Try again</button>
+        </div>
+      );
+    }
+    ```
+
+  - Global error in the root layout using the `global-error.js` file
+
+### Metadata and OG images
+
+- the static metadata object
+  ```tsx
+  // layout.js or page.js
+  export const metadata = {
+    title: "My Blog",
+    description: "...",
+  };
+  ```
+- the dynamic `generateMetadata` function
+  - you can use React's `cache` function to memorize the return value and only fetch the data once
+  ```tsx
+  // data.js
+  import { cache } from "react";
+  import { db } from "@/lib/db";
+  export const getPost = cache(async (slug) => {
+    const res = await db.query.post.findFirst({
+      where: eq(posts.slug, slug),
+    });
+    return res;
+  });
+  ```
+- special file conventions that can be used to add static or dynamically generated favicons and OG images
 
 ## Others
 
