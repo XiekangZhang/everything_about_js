@@ -729,11 +729,34 @@ To prioritize rendering, use one of these hooks:
 
 - use `const [state, formAction] = useActionState(action_function, {message: ''})` and `const { pending } = useFormStatus()` together
 
-### Layouts and Pages
+### Routing
+
+#### Layouts and Pages
 
 - A **page** is UI that is rendered on a specific route.
 - A **layout** is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender. It contains `{children}` prop.
 - `[slug]` creates a special dynamic route segment used to generate multiple pages from data.
+
+#### Linking and Navigating
+
+- `<Link href="/">Home</Link>` is used to navigate between pages. It prefetches the linked page in the background when it appears in the viewport.
+- `useRouter()` allows you to programmatically change routes from _Client Components_. Use `useRouter()` hook only if `<Link>` is not an option.
+
+  ```tsx
+  // router.push(), router.replace(), router.prefetch(), router.back(), router.forward()
+  "use client";
+  import { useRouter } from "next/navigation";
+
+  export default function Page() {
+    const router = useRouter();
+
+    return (
+      <button type="button" onClick={() => router.push("/dashboard")}>
+        Dashboard
+      </button>
+    );
+  }
+  ```
 
 ### Fetching Data
 
@@ -947,7 +970,9 @@ export default nextConfig;
   };
   ```
 - the dynamic `generateMetadata` function
+
   - you can use React's `cache` function to memorize the return value and only fetch the data once
+
   ```tsx
   // data.js
   import { cache } from "react";
@@ -958,7 +983,28 @@ export default nextConfig;
     });
     return res;
   });
+
+  // /[slug]/page.js
+  import { getPost } from "./data";
+  export async function generateMetadata({ params }) {
+    const post = await getPost(params.slug);
+    return {
+      titile: post.title,
+      description: post.description,
+    };
+  }
+
+  export default async function Page({ params }) {
+    const post = await getPost(params.slug);
+    return (
+      <div>
+        <h1>{post.title}</h1>
+        <p>{post.description}</p>
+      </div>
+    );
+  }
   ```
+
 - special file conventions that can be used to add static or dynamically generated favicons and OG images
 
 ## Others
