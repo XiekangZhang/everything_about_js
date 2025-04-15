@@ -810,6 +810,156 @@ export function LocaleSwitcher() {
 
 #### Error Handling
 
+- Errors can be divided into two categories: _expected errors_ and _uncaught exceptions_
+  - _Model expected errors as return values_: avoiding using `try/catch` for expected errors in Server Actions. Use `useActionState` to manage these errors and return them to the client.
+  - _Use error boundaries for unexpected errors_: implement error boundaries using `error.tsx` and `global-error.tsx` files to handle unexpected errors and provide a fallback UI.
+- Handling expected errors
+
+  - Server Actions - `useActionState`
+
+    ```tsx
+    "use client";
+    import { useActionState } from "react";
+    import { createPost } from "./actions";
+
+    const initialState = { message: "" };
+    export function Form() {
+      const [state, formAction, pending] = useActionState(createPost, initialState);
+
+      return (
+        <form action={formAction}>
+        {state?.message && <p arial-live="polite">{state.message}</p>}
+        <button disabled={pending}>
+          {pending ? "Creating..." : "Create"}
+        </form>
+      )
+    }
+    ```
+
+  - Server Components
+
+    ```tsx
+    // when fetching data inside of a Server Component, you can use the response to conditionally render an error message or redirect
+    export default async function Page() {
+      const res = await fetch("https://...");
+      const data = await res.json();
+
+      if (!res.ok) {
+        return <p>{data.error}</p>;
+      }
+      return <p>{data.message}</p>;
+    }
+    ```
+
+  - `notFound()` function with `not-found.js`
+
+- Handling uncaught exceptions
+
+  - Nested error boundaries
+
+    ```tsx
+    // create an error boundary by adding an error.js file inside a route segment and exporting a React component
+    import { useEffect } from "react";
+    export default function Error({ error, reset }) {
+      useEffect(() => {
+        console.error(error);
+      }, [error]);
+      return (
+        <div>
+          <h2>Something went wrong!</h2>
+          <button onClick={() => reset()}>Try again</button>
+        </div>
+      );
+    }
+    ```
+
+  - Global error in the root layout using the `global-error.js` file
+
+#### Loading UI and Streaming
+
+- The special file _loading.js_ helps you create meaningful Loading UI with _React Suspense_.
+
+  ```tsx
+  // you can nest suspense
+  import { Suspense } from "react";
+
+  export default function ArtistPage({ artist }) {
+    return (
+      <>
+        <h1>{artist.name}</h1>
+        <Suspense fallback={<BigSpinner />}>
+          <Biography artistId={artist.id} />
+          <Suspense fallback={<AlbumsGlimmer />}>
+            <h2>Something</h2>
+          </Suspense>
+        </Suspense>
+      </>
+    );
+  }
+
+  function BigSpinner() {
+    return <h2>🌀 Loading...</h2>;
+  }
+
+  function AlbumsGlimmer() {
+    return (
+      <div className="glimmer-panel">
+        <div className="glimmer-line" />
+        <div className="glimmer-line" />
+        <div className="glimmer-line" />
+      </div>
+    );
+  }
+  ```
+
+- a common alternative UI pattern is to _defer_ updating the list and to keep showing the previous results until the new results are ready. The `useDeferredValue` Hook lets you pass a deferred version of the query down:
+
+  ```tsx
+  import { useDeferredValue } from "react";
+  export default function App() {
+    const [query, setQuery] = useState("");
+    const deferredQuery = useDeferredValue(query, { timeoutMs: 2000 });
+
+    return (
+      <div
+        style={{
+          opacity: query !== deferredQuery ? 0.5 : 1,
+        }}
+      >
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <SearchResults query={deferredQuery} />
+      </div>
+    );
+  }
+  ```
+
+- `useTransition()` is a React Hook that lets you render a part of the UI in the background, in order to improve the user experience by allowing you to mark certain state updates as non-urgent transitions.
+  ```tsx
+  import { useState, useTransition } from "react";
+  export default function App({}) {
+    const [quantity, setQuantity] = useState(1);
+    const [isPending, startTransition] = useTransition();
+    const updateQuantityAction(async () => {
+      const savedQuantity = await updateQuantity(newQuantity);
+      startTransition(() => {
+        setQuantity(savedQuantity);
+      })
+    })
+  }
+  return (
+    <div>
+      <h1>Checkout</h1>
+      <Item action={updateQuantityAction}/>
+      <hr />
+      <Total quantity={quantity} isPending={isPending}>
+    </div>
+  )
+  ```
+
 ### Fetching Data
 
 #### Server Component
@@ -947,70 +1097,6 @@ export default nextConfig;
   4. revalidate the cache by using `revalidatePath()` or `revalidateTag()`
   5. redirect by needing to use `redirect()` function
 
-### Error Handling
-
-- Handling expected errors
-
-  - Server Actions
-
-    ```tsx
-    "use client";
-    import { useActionState } from "react";
-    import { createPost } from "./actions";
-
-    const initialState = { message: "" };
-    export function Form() {
-      const [state, formAction, pending] = useActionState(createPost, initialState);
-
-      return (
-        <form action={formAction}>
-        {state?.message && <p arial-live="polite">{state.message}</p>}
-        <button disabled={pending}>
-          {pending ? "Creating..." : "Create"}
-        </form>
-      )
-    }
-    ```
-
-  - Server Components
-
-    ```tsx
-    // when fetching data inside of a Server Component, you can use the response to conditionally render an error message or redirect
-    export default async function Page() {
-      const res = await fetch("https://...");
-      const data = await res.json();
-
-      if (!res.ok) {
-        return <p>{data.error}</p>;
-      }
-      return <p>{data.message}</p>;
-    }
-    ```
-
-  - `notFound()` function with `not-found.js`
-
-- Handling uncaught exceptions
-
-  - Nested error boundaries
-
-    ```tsx
-    // create an error boundary by adding an error.js file inside a route segment and exporting a React component
-    import { useEffect } from "react";
-    export default function Error({ error, reset }) {
-      useEffect(() => {
-        console.error(error);
-      }, [error]);
-      return (
-        <div>
-          <h2>Something went wrong!</h2>
-          <button onClick={() => reset()}>Try again</button>
-        </div>
-      );
-    }
-    ```
-
-  - Global error in the root layout using the `global-error.js` file
-
 ### Metadata and OG images
 
 - the static metadata object
@@ -1058,6 +1144,9 @@ export default nextConfig;
   ```
 
 - special file conventions that can be used to add static or dynamically generated favicons and OG images
+  - Favicons are small icons that represent your site in bookmarks and search results. To add a favicon to your application, create a _favicon.ico_ and add to the root of the _app_ folder
+  - Static Open Graph images are images that represent your site in social media. To add a static OG image to your application, create a _og.png_ file and add it to the root of the _app_ folder
+  - Generated Open Graph images could be generated by using _ImageResponse_ and JSX and CSS.
 
 ## Others
 
