@@ -743,7 +743,13 @@ To prioritize rendering, use one of these hooks:
 - `useRouter()` allows you to programmatically change routes from _Client Components_. Use `useRouter()` hook only if `<Link>` is not an option.
 
   ```tsx
-  // router.push(), router.replace(), router.prefetch(), router.back(), router.forward()
+  // scroll: scroll to top?
+  // router.push(href: string, {scroll: boolean})
+  // router.replace(href: string, {scroll: boolean})
+  // router.refresh()
+  // router.prefetch(href: string)
+  // router.back()
+  // router.forward()
   "use client";
   import { useRouter } from "next/navigation";
 
@@ -757,6 +763,52 @@ To prioritize rendering, use one of these hooks:
     );
   }
   ```
+
+- for _server components_, use the `redirect()` function instead
+- next.js allows you to use the native `window.history.pushState` and `window.history.replaceState` methods to update the browser's history stack without reloading the page. `pushState` and `replaceState` calls integrate into the Next.js Router, allowing you to sync with `usePathname` and `useSearchParams`.
+
+```tsx
+// window.history.pushState
+"use client";
+import { useSearchParams } from "next/navigation";
+export default function SortProducts() {
+  const searchParams = useSearchParams();
+  function updateSorting(sortOrder) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", sortOrder);
+    window.history.pushState(null, "", `?${params.toString()}`);
+  }
+  return (
+    <>
+      <button onClick={() => updateSorting("asc")}>Sort Ascending</button>
+      <button onClick={() => updateSorting("desc")}>Sort Descending</button>
+    </>
+  );
+}
+```
+
+```tsx
+// window.history.replaceState
+"use client";
+import { usePathname } from "next/navigation";
+export function LocaleSwitcher() {
+  const pathname = usePathname();
+
+  function switchLocale(locale) {
+    const newPath = `/${locale}${pathname}`;
+    window.history.replaceState(null, "", newPath);
+  }
+
+  return (
+    <>
+      <button onClick={() => switchLocale("en")}>English</button>
+      <button onClick={() => switchLocale("fr")}>French</button>
+    </>
+  );
+}
+```
+
+#### Error Handling
 
 ### Fetching Data
 
