@@ -657,7 +657,7 @@ To prioritize rendering, use one of these hooks:
 
 ## Next
 
-### Introduction
+### 1. Introduction
 
 - You can set cookies in _Server Actions_ or _Route Handlers_ using the _cookies_ function
 
@@ -729,15 +729,15 @@ To prioritize rendering, use one of these hooks:
 
 - use `const [state, formAction] = useActionState(action_function, {message: ''})` and `const { pending } = useFormStatus()` together
 
-### Routing
+### 2. Routing
 
-#### Layouts and Pages
+#### 2.1. Layouts and Pages
 
 - A **page** is UI that is rendered on a specific route.
 - A **layout** is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender. It contains `{children}` prop.
 - `[slug]` creates a special dynamic route segment used to generate multiple pages from data.
 
-#### Linking and Navigating
+#### 2.2. Linking and Navigating
 
 - `<Link href="/">Home</Link>` is used to navigate between pages. It prefetches the linked page in the background when it appears in the viewport.
 - `useRouter()` allows you to programmatically change routes from _Client Components_. Use `useRouter()` hook only if `<Link>` is not an option.
@@ -808,7 +808,7 @@ export function LocaleSwitcher() {
 }
 ```
 
-#### Error Handling
+#### 2.3. Error Handling
 
 - Errors can be divided into two categories: _expected errors_ and _uncaught exceptions_
   - _Model expected errors as return values_: avoiding using `try/catch` for expected errors in Server Actions. Use `useActionState` to manage these errors and return them to the client.
@@ -875,7 +875,7 @@ export function LocaleSwitcher() {
 
   - Global error in the root layout using the `global-error.js` file
 
-#### Loading UI and Streaming
+#### 2.4. Loading UI and Streaming
 
 - The special file _loading.js_ helps you create meaningful Loading UI with _React Suspense_.
 
@@ -959,6 +959,41 @@ export function LocaleSwitcher() {
     </div>
   )
   ```
+- Streaming is particularly beneficial when you want to prevent long data requests from blocking the page from rendering as it can reduce the Time To First Byte and First Contentful Paint. It also helps improve Time to Interactive especially on slower devices.
+
+#### 2.5. Redirecting
+
+- the `redirect` function allows you to redirect the user to another URL. You can call `redirect` in _Server Components_, _Route Handlers_, and _Server Actions_.
+- the `permanentRedirect` function allows you to permanently redirect the user to another URL. You can call `permanentRedirect` in _Server Components_, _Route Handlers_, and _Server Actions_.
+- `useRouter()` hook for programmatically navigation
+- `redirects` in _next.config.js_ allows you to redirect an incoming request path to a different path.
+  ```tsx
+  // next.config.js
+  module.exports = {
+    async redirects() {
+      return [
+        // Basic redirect
+        {
+          source: "/about",
+          destination: "/",
+          permanent: true,
+        },
+        // Wildcard path matching
+        {
+          source: "/blog/:slug",
+          destination: "/news/:slug",
+          permanent: true,
+        },
+      ];
+    },
+  };
+  ```
+- `NextResponse.redirect` in Middleware. Middleware allows you to run code before a request is completed. Then, based on the incoming request, redirect to a different URL using `NextResponse.redirect`. This is useful if you want to redirect users based on a condition (e.g., authentication, session management, etc) or have a large number of redirects.
+  ```tsx
+  // middleware runs after redirects in next.config.js and before rendering
+  ```
+
+#### 2.6. Route Groups
 
 ### Fetching Data
 
