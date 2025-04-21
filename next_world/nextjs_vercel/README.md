@@ -995,6 +995,49 @@ export function LocaleSwitcher() {
 
 #### 2.6. Route Groups
 
+- a route group can be created by wrapping a folder's name in parenthesis: _(folderName)_.
+
+#### 2.7. Dynamic Routes
+
+- a dynamic segment can be created by wrapping a folder's name in square brackets: _[folderName]_. Dynamic Segements are passed as the params prop to _layout_, _page_, _route_, and _generateMetadata_ functions.
+  ```jsx
+  // app/blog/[slug]/page.jsx
+  export default async function Page({ params }) {
+    const { slug } = await params;
+    return <div>My Post: {slug}</div>;
+  }
+  ```
+- since the _params_ prop is a promise. You must use async/await or React's use function to access the values.
+- The `generateStaticParams` function can be used in combination with dynamic route segments to statically generate routes at build time instead of on-demand at request time
+  ```jsx
+  // app/blog/[slug]/page.jsx
+  export async function generateStaticParams() {
+    const posts = await fetch("https://.../posts").then((res) => res.json());
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  }
+  ```
+- dynamic segments can be extended to **catch-all** subsequent segments by adding an ellipsis inside the brackets _[...folderName]_
+- **catch-all** segments can be made optional by including the parameter in double square brackets: _[[...folderName]]_
+
+  | route                         | example url | params                  | params Type       |
+  | ----------------------------- | ----------- | ----------------------- | ----------------- |
+  | app/shop/[...slug]/pages.js   | /shop/a     | {slug: ['a']}           | {slug: string[]}  |
+  | app/shop/[...slug]/pages.js   | /shop/a/b   | {slug: ['a', 'b']}      | {slug: string[]}  |
+  | app/shop/[...slug]/pages.js   | /shop/a/b/c | {slug: ['a', 'b', 'c']} | {slug: string[]}  |
+  | app/shop/[[...slug]]/pages.js | /shop       | {slug: undefined}       | {slug?: string[]} |
+  | app/shop/[[...slug]]/pages.js | /shop/a     | {slug: ['a']}           | {slug?: string[]} |
+  | app/shop/[[...slug]]/pages.js | /shop/a/b   | {slug: ['a', 'b']}      | {slug?: string[]} |
+  | app/shop/[[...slug]]/pages.js | /shop/a/b/c | {slug: ['a', 'b', 'c']} | {slug?: string[]} |
+
+#### 2.8. Parallel Routes
+
+- parallel routes allows you to simultaneously or conditionally render one or more pages within the same layout. They are useful for highly dynamic sections of an app, such as dashboards and feeds on social sites.
+- parallel routes are created using named **slots**. Slots are defined with the _@folder_ convention.
+  ![slots](./pics/slots.png)
+- 
+
 ### Fetching Data
 
 #### Server Component
