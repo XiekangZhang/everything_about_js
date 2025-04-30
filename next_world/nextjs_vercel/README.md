@@ -1036,7 +1036,102 @@ export function LocaleSwitcher() {
 - parallel routes allows you to simultaneously or conditionally render one or more pages within the same layout. They are useful for highly dynamic sections of an app, such as dashboards and feeds on social sites.
 - parallel routes are created using named **slots**. Slots are defined with the _@folder_ convention.
   ![slots](./pics/slots.png)
-- 
+- Slots are passed as props to the shared **parent** layout.
+
+```jsx
+// app/layout.jsx
+export default function Layout({ children, team, analytics }) {
+  return (
+    <>
+      {children}
+      {team}
+      {analytics}
+    </>
+  );
+}
+```
+
+- you can define a _default.js_ file to render as a fallback for unmatched slots during the initial load or full-page reload
+
+```jsx
+// useSelectedLayoutSegment(s) to read the active route segment within a slot
+"use client";
+import { useSelectedLayoutSegment } from "next/navigation";
+export default function Layout({ auth }) {
+  const loginSegment = useSelectedLayoutSegment("auth");
+}
+```
+
+- when a user navigates to `app/@auth/login` (or `/login` in the URL bar), `loginSegment` will be equal to the string _login_.
+- use cases of parallel routes:
+  - conditional routes
+    ```jsx
+    export default function Layout({ user, admin }) {
+      const role = checkUserRole();
+      return role === "admin" ? admin : user;
+    }
+    ```
+  - tab groups
+    ```jsx
+    // app/@analytics/page-views/page.jsx
+    // app/@analytics/visitors/page.jsx
+    // app/@analytics/layout.jsx
+    import Link from "next/link";
+    export default function Layout({ children }) {
+      return (
+        <>
+          <nav>
+            <Link href="/page-views">Page Views</Link>
+            <Link href="/visitors">Visitors</Link>
+          </nav>
+          <div>{children}</div>
+        </>
+      );
+    }
+    ```
+  - modals
+    ![modals](./pics/modals.png)
+    - you can close the modal by calling `router.back()` or by using the `Link` component
+
+#### 2.9. Interception Routes
+
+- intercepting routes allows you to load a route from another part of your application within the current layout.
+
+  - `(.)` to match segments on the **same level**
+  - `(..)` to match segments **one level above**
+  - `(..)(..)` to match segments **two levels above**
+  - `(...)` to match segments from the **root** `app` directory
+
+- use cases:
+  - modals ([modal example](https://github.com/vercel/nextgram/tree/main/app))
+    ![modal example structure](./pics/modal_example.png)
+
+#### 2.10. Route Handlers
+
+- route handlers allow you to create custom request handlers for a given route using the Web Request and Response APIs.
+- route handlers are defined in a `route.js` file inside the **app** directory
+
+```jsx
+// app/api/route.jsx --> extended NextRequest and NextResponse APIs
+export async function GET(request) {}
+```
+
+#### 2.11. Middleware
+
+- middleware allows you to run code before a request is completed. Then, based on the incoming request, you can modify the response by rewriting, redirecting, modifying the request or response headers, or responding directly.
+- middleware runs before cached content and routes are matched.
+- the `matcher` values need to be constants so they can be statically analyzed at build-time. Dynamic values such as variables will be ignored.
+
+  ```jsx
+  export const config = {
+    matcher: [
+      "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    ],
+  };
+  ```
+
+  - configured matchers:
+    - must start with `/`
 
 ### Fetching Data
 
