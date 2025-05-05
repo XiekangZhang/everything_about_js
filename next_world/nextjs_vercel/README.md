@@ -1140,19 +1140,153 @@ export async function GET(request) {}
   - `rewrite` the response by displaying a given URL
   - set request headers for API Routes, `getServerSideProps`, and `rewrite` destination
   - set response cookies and headers
+- usecases:
+
+  - setting cookies
+
+  ```jsx
+  import { NextResponse } from "next/server";
+
+  export function middleware(request) {
+    // Assume a "Cookie:nextjs=fast" header to be present on the incoming req
+    // Getting cookies from the request using the "RequestCookies" API
+    let cookie = request.cookies.get("nextjs");
+    console.log(cookie); // => {name: 'nextjs', value: 'fast', Path: '/'}
+    const allCookies = request.cookies.getAll();
+    console.log(allCookies); // => [{name: 'nextjs', value: 'fast'}]
+
+    request.cookies.has("nextjs"); // => true
+    request.cookies.delete("nextjs");
+    request.cookies.has("nextjs"); // => false
+
+    // Setting cookies on the response using the "ResponseCookies" API
+    const response = NextResponse.next();
+    response.cookies.set("vercel", "fast");
+    response.cookies.set({
+      name: "vercel",
+      value: "fast",
+      path: "/",
+    });
+    cookie = response.cookies.get("vercel");
+    console.log(cookie); // => {name: 'nextjs', value: 'fast', Path: '/'}
+    // the outgoing response will have a "Set-Cookie:vercel=fast;path=/test" header
+    return response;
+  }
+  ```
+
+  - setting headers
+
+  ```jsx
+  import { NextResponse } from "next/server";
+
+  export function middleware(request) {
+    // clone the request headers and set a new header
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-hello-from-middleware", "hello");
+    // you can also set request headers in NextResponse.next
+    const response = NextResponse.next({
+      request: { headers: requestHeaders },
+    });
+    // set a new response header
+    response.headers.set("x-hello-from-middleware2", "hello");
+    return response;
+  }
+  ```
+
+  - CORS
+
+  ```jsx
+  import { NextResponse } from "next/server";
+
+  const allowedOrigins = ["https://acme.com", "https://my-app.org"];
+  const corsOptions = {
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
+
+  export function middleware(request) {
+    // check the origin from the request
+    const origin = request.headers.get("origin") ?? "";
+    const isAllowedOrigin = allowedOrigins.includes(origin);
+    // handle preflighted requests
+    const isPreflight = request.method === "OPTIONS";
+    if (isPreflight) {
+      const preflightHeaders = {
+        ...(isAllowedOrigin && { "Access-Control-Allow-Origin": origin }),
+        ...corsOptions,
+      };
+      return NextResponse.json({}, { headers: preflightHeaders });
+    }
+    const response = NextResponse.next();
+    if (isAllowedOrigin) {
+      response.headers.set("Access-Control-Allow-Origin", origin);
+    }
+    Object.entries(corsOptions).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
+    return response;
+  }
+  export const config = {
+    matcher: "/api/:path*",
+  };
+  ```
+
+  - Producing a Response
+
+  ```jsx
+  // the waitUntil() method takes a promise as an argument, and extends the lifetime of the Middleware until the promise settles
+  // this is useful for performing work in the background
+  import { NextResponse } from "next/server";
+  export function middleware(request, event) {
+    event.waitUntil(
+      fetch("https://my-analytics-platform.com", {
+        method: "POST",
+        body: JSON.stringify({ pathname: request.nextUrl.pathname }),
+      })
+    );
+    return NextResponse.next();
+  }
+  ```
+
+#### 2.12. Internationalization
+
+- Next.js enables you to configure the routing and rendering of content to support multiple languages.
+
+### 3. Data Fetching
+
+#### 3.1. Data Fetching and Caching
+
+- to prevent the page from prerendering, you can add the following to your file: `export const dynamic = 'force-dynamic'`
+- we recommend first attempting to fetch data on the server-side
 
 ```jsx
-import { NextResponse } from "next/server";
+// you can use the unstable_cache API to cache the response when running next build
+import { unstable_cache } from "next/cache";
+import { db, posts } from "@/lib/db";
 
-export function middleware(request) {
-  // Assume a "Cookie:nextjs=fast" header to be present on the incoming req
-  // Getting cookies from the request using the "RequestCookies" API
-  let cookie = request.cookies.get("nextjs");
-  
-}
+const getPosts = unstable_cache(
+  async () => {
+    return await db.select().from(posts);
+  },
+  ["posts"],
+  { revalidate: 3600, tags: ["posts"] }
+);
+// this example caches the result of the database query for 1 hour. 
 ```
 
-### Fetching Data
+### 4. Rendering
+
+### 5. Styling
+
+### 6. Optimizing
+
+### 7. Caching
+
+### 8. API Reference
+
+### 9. Architecture
+
+### 10. Guides
 
 #### Server Component
 
