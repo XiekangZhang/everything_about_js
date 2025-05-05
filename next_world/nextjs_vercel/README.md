@@ -1132,6 +1132,25 @@ export async function GET(request) {}
 
   - configured matchers:
     - must start with `/`
+    - can include named parameters: `/about/:path` matches `/about/a` and `/about/b` but not `/about/a/c`
+    - `*` is zero or more, `?` is zero or one, `+` is one or more, thus `/about/:path*` matches `/about/a/b/c`
+
+- `import {NextResponse} from 'next/server'`, which allows you to
+  - `redirect` the incoming request to a different URL
+  - `rewrite` the response by displaying a given URL
+  - set request headers for API Routes, `getServerSideProps`, and `rewrite` destination
+  - set response cookies and headers
+
+```jsx
+import { NextResponse } from "next/server";
+
+export function middleware(request) {
+  // Assume a "Cookie:nextjs=fast" header to be present on the incoming req
+  // Getting cookies from the request using the "RequestCookies" API
+  let cookie = request.cookies.get("nextjs");
+  
+}
+```
 
 ### Fetching Data
 
