@@ -1,5 +1,7 @@
 # Next related Tutorial
 
+## React
+
 ## Next
 
 ### 1. Introduction
@@ -720,8 +722,76 @@ export default function Page() {
   return <form action={createInvoice}>...</form>;
 }
 ```
-##### 3.2.1. Passing additional arguments
 
+##### 3.2.2. Passing additional arguments
+
+- you can pass additional arguments to a Server Action using the JavaScript `bind` method
+
+```jsx
+// server action
+"use server";
+export async function updateUser(userId, formData) {}
+```
+
+```jsx
+// client component
+"use client";
+import { updateUser } from "./actions";
+export function UserProfile({ userId }) {
+  const updateUserWithId = updateUser.bind(null, userId);
+  return (
+    <form action={updateUserWithId}>
+      <input type="text" name="name" />
+      <button type="submit">update user name</button>
+    </form>
+  );
+}
+```
+
+##### 3.2.3. Programmatic form submission
+
+- you can trigger a form submission programmatically using the `requestSubmit()`
+
+```jsx
+"use client";
+export function Entry() {
+  const handleKeyDown = (e) => {
+    if (
+      (e.ctrlKey || e.metaKey) &&
+      (e.key === "Enter" || e.key === "NumpadEnter")
+    ) {
+      e.preventDefault();
+      e.currentTarget.form?.requestSubmit();
+    }
+  };
+  return (
+    <div>
+      <textarea name="entry" rows={20} required onKeyDown={handleKeyDown} />
+    </div>
+  );
+}
+```
+
+##### 3.2.4. useActionState
+
+- you can pass your action to the `useActionState` hook and use the returned `state` to display an error message
+
+```jsx
+export function Signup() {
+  const [state, formAction, pending] = useActionState(createUser, initialState);
+  return (
+    <form action={formAction}>
+      <label htmlFor="email">Email</label>
+      <input type="text" id="email" name="email" required />
+      <p aria-live="polite">{state?.message}</p>
+      <button disable={pending}>Sign up</button>
+    </form>
+  );
+}
+```
+##### 3.2.5. Pending states
+- you can use the `useFormStatus` hook to show a loading indicator while the action is being executed.
+- when using this hook, you will need to create a separate component to render the loading indicator.
 ### 4. Rendering
 
 ### 5. Styling
