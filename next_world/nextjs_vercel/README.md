@@ -789,9 +789,23 @@ export function Signup() {
   );
 }
 ```
+
 ##### 3.2.5. Pending states
+
 - you can use the `useFormStatus` hook to show a loading indicator while the action is being executed.
 - when using this hook, you will need to create a separate component to render the loading indicator.
+
+##### 3.2.6. Optimistic updates
+
+- you can use the React `useOptimistic` hook to optimistically update the UI before the Server Action finishes executing, rather than waiting for the response
+
+```jsx
+"use client";
+import { useOptimistic } from "react";
+import { send } from "./actions";
+
+```
+
 ### 4. Rendering
 
 ### 5. Styling
