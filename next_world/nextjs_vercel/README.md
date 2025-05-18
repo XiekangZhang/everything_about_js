@@ -804,7 +804,75 @@ export function Signup() {
 import { useOptimistic } from "react";
 import { send } from "./actions";
 
+export function Thread({ messages }) {
+  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+    messages,
+    (state, newMessage) => [...state, { message: newMessage }]
+  );
+
+  const formAction = async (formData) => {
+    const message = formData.get("message");
+    addOptimisticMessage(message);
+    await send(message);
+  };
+
+  return (
+    <div>
+      {optimisticMessages.map((m) => (
+        <div>{m.message}</div>
+      ))}
+      <form action={formAction}>
+        <input type="text" name="message" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  );
+}
 ```
+
+##### 3.2.7. Event handlers
+
+- while it's common to use Server Actions within `<form>` elements, they can also be invoked with event handlers such as `onClick`, `onChange`.
+
+##### 3.2.8. useEffect, revalidatePath, revalidateTag, redirect, cookies
+
+- you can use the React `useEffect` hook to invoke a Server Action when the component mounts or a dependency changes.
+
+##### 3.2.9. Security
+
+- by default, when a Server Action is created and exported, it creates a public HTTP endpoint and should be treated with the same securityassumptions and authorization checks.
+- to improve security, next.js has the following built-in features:
+  - **Secure action IDs**
+  - **Dead code elimination**
+
+#### 3.3. Incremental Static Regeneration (ISR)
+
+- Incremental Static Regeneration enables you to:
+  - update static content without rebuilding the entire site
+  - reduce server load by serving prerendered, static pages for most requests
+  - ensure proper `cache-control` headers are automatically added to pages
+  - handle large amounts of content pages without long `next build` times
+- usecases
+
+  - time-based revalidation
+
+    ```jsx
+    export const revalidate = 3600; // invalidate every hour
+    export default async function Page() {
+      const data = await fetch("https://api.vercel.app/blog");
+      const posts = await data.json();
+      return (
+        <main>
+          <h1>Blog Posts</h1>
+          <ul>
+            {posts.map((post) => (
+              <li key={post.id}>{post.title}</li>
+            ))}
+          </ul>
+        </main>
+      );
+    }
+    ```
 
 ### 4. Rendering
 
