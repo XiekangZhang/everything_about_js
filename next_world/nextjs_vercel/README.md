@@ -874,19 +874,56 @@ export function Thread({ messages }) {
     }
     ```
 
-### 4. Rendering
+  - on-demand revalidation with `revalidatePath`, this will clear the cache for the entire route and allow the Server Component to fetch fresh data
+  - on-demand revalidation with `revalidateTag`, this provides more granular control. If you are using an ORM or connecting to a database, you can use `unstable_cache`
 
-### 5. Styling
+  ```jsx
+  // page.js
+  import { unstable_cache } from "next/cache";
+  import { db, posts } from "@/lib/db";
 
-### 6. Optimizing
+  const getCachedPosts = unstable_cache(
+    async () => {
+      return await db.select().from(posts);
+    },
+    ["posts"],
+    { revalidate: 3600, tags: ["posts"] }
+  );
+  export default async function Page() {
+    const posts = getCachedPosts();
+  }
+  // action.js
+  ("use server");
+  import { revalidateTag } from "next/cache";
+  export async function createPost() {
+    revalidateTag("posts");
+  }
+  ```
 
-### 7. Caching
+### 4. Caching
 
-### 8. API Reference
+- Next.js improves your application's performance and reduces costs by caching rendering work and data requests.
 
-### 9. Architecture
+  | Mechanism           | What                       | Where  | Purpose                                         | Duration                        |
+  | ------------------- | -------------------------- | ------ | ----------------------------------------------- | ------------------------------- |
+  | Request Memoization | Return values of functions | Server | Re-use data in a React Component tree           | Per-request lifecycle           |
+  | Data Cache          | Data                       | Server | Store data across user requests and deployments | Persistent (can be revalidated) |
+  | Full Route Cache    | HTML and RSC Payload       | Server | Reduce rendering cost and improve performance   | Persistent (can be validated)   |
+  | Router Cache        | RSC Payload                | Client | Reduce server requests on navigation            | User session or time-based      |
 
-### 10. Guides
+#### 4.1. Request Memoization
+
+- Next.js extends the `fetch API` (React fetch API) to automatically **memoize** requests that have the same URL and options. This means you can call a fetch function for the same data in multiple places in a React component tree while only executing it once.
+
+#### 4.2. Data Cache
+
+- Next.js has a built-in Data Cache that **persists** the result of data fetches across incoming **server requests** and **deployments**.
+
+### 5. API Reference
+
+### 6. Architecture
+
+### 7. Guides
 
 ### Next Quick Start
 
