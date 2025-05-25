@@ -918,6 +918,18 @@ export function Thread({ messages }) {
 #### 4.2. Data Cache
 
 - Next.js has a built-in Data Cache that **persists** the result of data fetches across incoming **server requests** and **deployments**.
+- cached data can be revalidated with **time-based revalidation** and **on-demand revalidation**
+
+```jsx
+fetch("https://...", { next: { revalidate: 3600 } });
+fetch("https://...", { next: { tags: ["a"] } });
+revalidateTag("a");
+```
+
+- if you do not want to cache the response from _fetch_, you can do the following `let data = await fetch('https://api.vercel.app/blog', {cache: 'no-store'})`
+
+#### 4.3. Full Route Cache
+- To understand how the _Full Route Cache_ works, it's helpful to look at how React handles rendering, and how Next.js caches the result:
 
 ### 5. API Reference
 
