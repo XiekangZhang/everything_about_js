@@ -928,14 +928,59 @@ revalidateTag("a");
 
 - if you do not want to cache the response from _fetch_, you can do the following `let data = await fetch('https://api.vercel.app/blog', {cache: 'no-store'})`
 
-#### 4.3. Full Route Cache
+#### 4.3. Full Route Cache & Router Cache
+
 - To understand how the _Full Route Cache_ works, it's helpful to look at how React handles rendering, and how Next.js caches the result:
+  - React Rendering on the Server - the rendering work is split into chunks, each chunk is rendered in two steps:
+    1. React renders Server Components into a special data format, optimized for streaming, called the **React Server Component Payload**
+    2. Next.js uses the React Server Component Payload and Client Component JavaScript instructions to render HTML on the server
+  - Next.js Caching on the Server (Full Route Cache)
+  - React Hydration and Reconciliation on the Client
+  - Next.js Caching on the Client (Router Cache)
+  - Subsequent Navigations
+  - Static routes are cached by default, whereas dynamic routes are rendered at request time, and not cached.
+- the default caching behavior of `fetch` is equal to setting the `cache` option to `no-store`
+- since `fetch` requests are automatically memoized, you do not need to wrap it in React `Cache`. However, you can use `Cache` to manually memoize data requests for use cases when the `fecth`API is not suitable.
+
+```jsx
+import { cache } from 'react'
+import db from '@/lib/db'
+export const getItem = cache(async(id) => {
+  const item = await db.item.findUnique{{id}}
+  return item
+})
+```
 
 ### 5. API Reference
 
-### 6. Architecture
+#### 5.1. Directives
 
-### 7. Guides
+- use cache: adjust _next.config.js_, then you can use `use cache`
+  ```jsx
+  // next.config.js
+  const nextConfig = {
+    experimental: {
+      useCache: true,
+    },
+  };
+  module.exports = nextConfig;
+  ```
+- use client
+  - when using the `use client` directive, the props of the Client Components must be serializable. This means the props need to be in a format React can serialize when sending data from the server to the client
+  - **server components**: Use for static content, data fetching, and SEO-friendly elements
+  - **client components**: Use for interactive elements that require state, effects, or browser APIs
+- use server
+  - a function or file is executed on the server side
+
+#### 5.2. Components
+
+- Font
+- Form
+- Image
+- Link
+- Script
+
+### 6. Guides
 
 ### Next Quick Start
 
