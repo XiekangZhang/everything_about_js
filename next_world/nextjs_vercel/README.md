@@ -975,8 +975,104 @@ export const getItem = cache(async(id) => {
 #### 5.2. Components
 
 - Font
-- Form
-- Image
+
+  ```jsx
+  import { Inter } from "next/font/google";
+  // font family
+  const inter = Inter({
+    subsets: ["latin"],
+    display: "swap",
+  });
+  ```
+
+  - 2 ways to use multiple fonts
+
+  ```jsx
+  // 1st way
+  const inter = Inter({
+    subsets: ["latin"],
+    display: "swap",
+  });
+  const robot_mono = Roboto_Mono({
+    subsets: ["latin"],
+    display: "swap",
+  });
+
+  export default function Page() {
+    return(
+      <>
+        <html lang="en" className={inter.className}>
+        <h1 className={robot_mono.className}>My page</h1>
+      </>)
+    }
+  ```
+
+  ```jsx
+  // 2nd way with css varaibles
+  const inter = Inter({
+    subsets: ["latin"],
+    variable: "--font-inter",
+    display: "swap",
+  });
+  const roboto_mono = Roboto_Mono({
+    subsets: ["latin"],
+    variables: "--font-roboto-mono",
+    display: "swap",
+  });
+  export default function RootLayout({children}) {
+    return (
+      <html lang='en' className={`${inter.variable} ${roboto_mono.variable}`}>
+    )
+  }
+  ```
+
+  ```css
+  html {
+    font-family: var(--font-inter);
+  }
+
+  h1 {
+    font-family: var(--font-roboto-mono);
+  }
+  ```
+
+  - using localFont
+
+  ```jsx
+  const roboto = localFont({
+    src: [
+      {
+        path: "./Robot-Regular.woff2",
+        weight: "400",
+        style: "normal",
+      },
+      {
+        path: "./Roboto-Italic.woff2",
+        weight: "400",
+        style: "italic",
+      },
+      {
+        path: "./Roboto-Bold.woff2",
+        weight: "700",
+        style: "normal",
+      },
+      {
+        path: "./Roboto-BoldItalic.woff2",
+        weight: "700",
+        style: "italic",
+      },
+    ],
+  });
+  ```
+
+  - Every time you call the `localFont` or Google font function, that font will be hosted as one instance in your application
+
+- Form: the `<Form>` component extends the HTML `<form>` element to provide prefetchting of loading UI, client-side navigation on submission, and progressive enhancement
+  `<Form action="string" replace={false} scroll={true} prefetch={true}>...</Form>`
+  - `action="string"`: An empty string `""` will navigate to the same route with updated search params
+  - `scroll`: controls the scroll behavior during navigation. Defaults to `true`, this means it will scroll to the top of the new route, and maintain the scroll position for backwards and forwards navigation
+    `<Form action={myAction}>...</Form>`: the server action to be called when the form is submitted
+- Image: for automatic image optimization
 - Link
 - Script
 
