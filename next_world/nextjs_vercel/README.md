@@ -1068,11 +1068,20 @@ export const getItem = cache(async(id) => {
   - Every time you call the `localFont` or Google font function, that font will be hosted as one instance in your application
 
 - Form: the `<Form>` component extends the HTML `<form>` element to provide prefetchting of loading UI, client-side navigation on submission, and progressive enhancement
-  `<Form action="string" replace={false} scroll={true} prefetch={true}>...</Form>`
-  - `action="string"`: An empty string `""` will navigate to the same route with updated search params
-  - `scroll`: controls the scroll behavior during navigation. Defaults to `true`, this means it will scroll to the top of the new route, and maintain the scroll position for backwards and forwards navigation
-    `<Form action={myAction}>...</Form>`: the server action to be called when the form is submitted
+  - `<Form action="string" replace={false} scroll={true} prefetch={true}>...</Form>`
+    - `action="string"`: An empty string `""` will navigate to the same route with updated search params
+    - `scroll`: controls the scroll behavior during navigation. Defaults to `true`, this means it will scroll to the top of the new route, and maintain the scroll position for backwards and forwards navigation
+    - `prefetch`: controls whether the path should be prefetched when the form becomes visible in the user's viewport. Defaults to `true`
+  - `<Form action={myAction}>...</Form>`: the server action to be called when the form is submitted
+  - `Form` works usually with `useFormStatus`, `useEffect`, `useActionState` together
 - Image: for automatic image optimization
+  - if the image is purely decorative or not intended for the user, you should then set `alt=""`
+  - `width` & `height` are not used for rendering the size of the image
+  - if width and height are unknown, you can set `fill=true`
+  - `objectFit=contain|cover`
+  - `loader`: generates the image URL
+  - `sizes`: without sizes for fixed-size images, with sizes for responsive layout
+  - `placeholder` with `empty`, `blur`, `blurDataURL`, `data`
 - Link
 - Script
 
