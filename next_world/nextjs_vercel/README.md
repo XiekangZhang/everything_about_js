@@ -1075,6 +1075,7 @@ export const getItem = cache(async(id) => {
   - `<Form action={myAction}>...</Form>`: the server action to be called when the form is submitted
   - `Form` works usually with `useFormStatus`, `useEffect`, `useActionState` together
 - Image: for automatic image optimization
+  - it's better to use a **Static Image Import**
   - if the image is purely decorative or not intended for the user, you should then set `alt=""`
   - `width` & `height` are not used for rendering the size of the image
   - if width and height are unknown, you can set `fill=true`
