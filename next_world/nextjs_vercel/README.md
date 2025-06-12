@@ -1083,7 +1083,8 @@ export const getItem = cache(async(id) => {
   - `loader`: generates the image URL
   - `sizes`: without sizes for fixed-size images, with sizes for responsive layout
   - `placeholder` with `empty`, `blur`, `blurDataURL`, `data`
-- Link
+- Link:
+  - `<a>` tag attributes such as `className` or `target="_blank"` can be added to `<Link>` as props and will be passed to the underlying `<a>` element
 - Script
 
 ### 6. Guides
