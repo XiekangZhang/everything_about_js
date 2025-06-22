@@ -1085,7 +1085,15 @@ export const getItem = cache(async(id) => {
   - `placeholder` with `empty`, `blur`, `blurDataURL`, `data`
 - Link:
   - `<a>` tag attributes such as `className` or `target="_blank"` can be added to `<Link>` as props and will be passed to the underlying `<a>` element
+  - `prefetch=null|true|false`
+  - `preventDefault()` allows you to cancel the navigation. By default, when you submit an HTML form, the browser will attempt to navigate to the _action_ URL or refresh the current page if no _action_ is specified.
+  - scrolling to an **id**: `<Link href="/dashboard#settings"></Link>`, where `#` means fragment identifier
+  - the default behavior of the **Link** components is to _push_ a new URL into the _history_ stack. You can use the **replace** prop to prevent adding a new entry
+  - `scroll=true|false`: to enable or prevent the page from automatically scrolling to the top when a navigation occurs
 - Script
+  - scripts with `beforeInteractive` will always be injected inside the `head` of the HTML document regardless of where it's placed in the component
+  - scripts with `afterInteractive` will be injected into HTML client-side and will load after some hydration occurs on the page
+  - 
 
 ### 6. Guides
 
