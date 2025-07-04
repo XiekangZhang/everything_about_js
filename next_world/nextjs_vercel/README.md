@@ -1093,7 +1093,21 @@ export const getItem = cache(async(id) => {
 - Script
   - scripts with `beforeInteractive` will always be injected inside the `head` of the HTML document regardless of where it's placed in the component
   - scripts with `afterInteractive` will be injected into HTML client-side and will load after some hydration occurs on the page
-  - 
+
+#### 5.3. File-system conventions
+
+- default.js: is used to render a fallback within parallel routes (@) when Next.js cannot recover a slot's active state after a full-page load
+- dynamic route segments:
+  - [slug]: `/blog/a --> {slug: a}`
+  - catch-all segments: [...slug]: `/shop/a --> {slug: a}`, `/shop/a/b --> {slug: [a, b]}`, `/shop/a/b/c --> {slug: [a, b, c]}`
+  - optional catch-all segments: [[...slug]]: combine first and second segments `/shop --> {slug: undefined}`, `/shop/a --> {slug: a}`, `/shop/a/b --> {slug: [a, b]}`, `/shop/a/b/c --> {slug: [a, b, c]}`
+  - TypeScript: `{slug: string}`, `{slug: string[]}`, `{slug?: string[]}`
+- error.js and global-error.js
+  - `<ErrorBoundary fallback={<Error/>}>...</ErrorBoundary>`
+  - `reset()`
+- forbidden.js
+- instrumentation.js and instrumentation-client.js: is used to integrate observability tools into your application, allowing you to track the performance and behavior, and to debug issues in production
+- intercepting routes:
 
 ### 6. Guides
 
