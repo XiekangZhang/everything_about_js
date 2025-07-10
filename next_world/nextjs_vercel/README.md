@@ -1107,7 +1107,54 @@ export const getItem = cache(async(id) => {
   - `reset()`
 - forbidden.js
 - instrumentation.js and instrumentation-client.js: is used to integrate observability tools into your application, allowing you to track the performance and behavior, and to debug issues in production
-- intercepting routes:
+- intercepting routes: intercepting routes allows you to load a route from another part of your application within the current layout.
+  - convention:
+    - `(.)` to match segments on the same level
+    - `(..)` to match segments one level above
+    - `(..)(..)` to match segements two levels above
+    - `(...)` to match segments from the root app directory
+- layout.js
+
+  ```js
+  // app/dashboard/[team]/layout.js
+  export default async function Layout({ children, params })
+    const { team } = await params
+  ```
+
+  ```js
+  "use client";
+
+  import Link from "next/link";
+  import { useSelectedLayoutSegment } from "next/navigation";
+
+  export default function NavLinks({ slug, children }) {
+    const segment = useSelectedLayoutSegment();
+    const isActive = slug === segment;
+
+    return (
+      <Link
+        href={`/blog/${slug}`}
+        style={{ fontWeight: isActive ? "bold" : "normal" }}
+      >
+        {children}
+      </Link>
+    );
+  }
+  ```
+
+  - reading `params` in Client Components. Client Component cannot be async
+
+    ```js
+    "use client";
+
+    import { use } from "react";
+
+    export default function Page({ params }) {
+      const { slug } = use(params);
+    }
+    ```
+
+- loading.js
 
 ### 6. Guides
 
