@@ -4,27 +4,93 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tapestry&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            sans: ["ui-sans-serif", "system-ui"],
+            serif: ["ui-serif", "Georgia"],
+            mono: ["ui-monospace", "SFMono-Regular"],
+            tapestry: ["Tapestry", "cursive"],
+          },
+        },
+      };
+    </script>
     <title>Typography</title>
   </head>
   <body>
     <!-- Font Family -->
+    <div class="font-sans">This is a sans-serif font.</div>
+    <div class="font-serif">This is a serif font.</div>
+    <div class="font-mono">This is a monospace font.</div>
+    <div class="font-tapestry">This is a custom tapestry font.</div>
 
     <!-- Font Size -->
+    <div class="text-xs">This is extra small text.</div>
+    <div class="text-sm">This is small text.</div>
+    <div class="text-base">This is base text.</div>
+    <div class="text-lg">This is large text.</div>
+    <div class="text-xl">This is extra large text.</div>
+    <div class="text-2xl">This is 2xl text.</div>
+    <!-- to 9xl -->
 
     <!-- Font Weight -->
+    <div class="font-light">This is light font weight.</div>
+    <div class="font-normal">This is normal font weight.</div>
+    <div class="font-medium">This is medium font weight.</div>
+    <div class="font-semibold">This is semi-bold font weight.</div>
+    <div class="font-bold">This is bold font weight.</div>
 
     <!-- Letter Spacing -->
+    <div class="tracking-tighter">This is tighter letter spacing.</div>
+    <div class="tracking-tight">This is tight letter spacing.</div>
+    <div class="tracking-normal">This is normal letter spacing.</div>
+    <div class="tracking-wide">This is wide letter spacing.</div>
+    <div class="tracking-wider">This is wider letter spacing.</div>
+    <div class="tracking-widest">This is widest letter spacing.</div>
 
     <!-- Text Alignment -->
+    <div class="text-left">This text is left aligned.</div>
+    <div class="text-center">This text is center aligned.</div>
+    <div class="text-right">This text is right aligned.</div>
+    <div class="text-justify">This text is justified.</div>
 
     <!-- Text Decoration -->
+    <div class="underline decoration-4 decoration-blue-400">
+      This text is underlined with a thick blue line.
+    </div>
+    <div class="underline decoration-double">
+      This text is underlined with a double line.
+    </div>
+    <div class="underline decoration-dotted">
+      This text is underlined with a dotted line.
+    </div>
+    <div class="underline decoration-wavy">
+      This text is underlined with a wavy line.
+    </div>
+    <div class="underline decoration-dashed">
+      This text is underlined with a dashed line.
+    </div>
 
     <!-- Decoration Style -->
 
     <!-- Decoration Offset -->
+    <div class="underline decoration-4 decoration-blue-400 underline-offset-4">
+      This text is underlined with a thick blue line and offset.
+    </div>
 
     <!-- Text Transform -->
+    <p class="normal-case">Tailwind is awesome</p>
+    <p class="uppercase">Tailwind is awesome</p>
+    <p class="lowercase">Tailwind is awesome</p>
+    <p class="capitalize">tailwind is awesome</p>
   </body>
 </html>
 
