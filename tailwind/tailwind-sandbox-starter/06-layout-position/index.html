@@ -9,24 +9,61 @@
   </head>
   <body>
     <!-- Positioning -->
+    <div class="relative w-1/2 h-12 bg-red-200">
+      <p>Parent Element</p>
+      <div class="absolute bottom-0 right-0 bg-red-500">
+        <p>Absolute Child</p>
+      </div>
+    </div>
 
     <!-- Top left corner -->
+    <div class="relative h-32 w-32 bg-yellow-100">
+      <div class="absolute left-0 top-0 h-16 w-16 bg-yellow-200"></div>
+    </div>
 
     <!-- Top right corner -->
+    <div class="relative h-32 w-32 bg-green-100">
+      <div class="absolute right-0 top-0 h-16 w-16 bg-green-200"></div>
+    </div>
 
     <!-- Bottom left corner -->
+    <div class="relative h-32 w-32 bg-red-100">
+      <div class="absolute left-0 bottom-0 h-16 w-16 bg-red-200"></div>
+    </div>
 
     <!-- Bottom right corner -->
+    <div class="relative h-32 w-32 bg-blue-100">
+      <div class="absolute right-0 bottom-0 h-16 w-16 bg-blue-200"></div>
+    </div>
 
     <!-- Span top edge -->
+    <div class="relative h-32 w-32 bg-pink-100">
+      <div class="absolute inset-x-0 top-0 h-16 bg-pink-300"></div>
+    </div>
 
     <!-- Span left edge -->
+    <div class="relative h-32 w-32 bg-purple-100">
+      <div class="absolute inset-y-0 left-0 w-16 bg-purple-300"></div>
+    </div>
 
     <!-- Span right edge -->
+    <div class="relative h-32 w-32 bg-indigo-100">
+      <div class="absolute inset-y-0 right-0 w-16 bg-indigo-300"></div>
+    </div>
 
     <!-- Span bottom edge -->
+    <div class="relative h-32 w-32 bg-gray-100">
+      <div class="absolute inset-x-0 bottom-0 h-16 bg-gray-300"></div>
+    </div>
 
     <!-- Display Classes -->
+    <div>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      <span class="inline font-bold">This is inline</span>
+      Placeat, quo! Corporis voluptate deserunt dicta sit iste <span class="inline-block font-bold">This is inline-block</span> quas error nulla
+      alias voluptates <span class="block font-bold">This is block</span> consectetur, <span class="hidden font-bold">This is hidden</span> cumque dolor nesciunt quae non adipisci nisi
+      mollitia.
+    </div>
 
     <!-- Z-Index -->
 
