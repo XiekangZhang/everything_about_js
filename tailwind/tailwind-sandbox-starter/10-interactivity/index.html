@@ -1,34 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Interactivity</title>
-  </head>
-  <body>
-    <!-- Hover State Styling -->
+<html lang="en" class="scroll-smooth">
 
-    <!-- Focus State Styling -->
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Interactivity</title>
+</head>
 
-    <!-- Active State Styling -->
+<body>
+  <!-- Hover State Styling -->
+  <button class="bg-black text-white py-3 px-5 rounded-lg m-3 hover:bg-orange-500 hover:text-white">Submit</button>
 
-    <!-- Styling based on parent state -->
+  <!-- Focus State Styling -->
+  <button class="bg-black text-white py-3 px-5 rounded-lg m-3 focus:bg-green-500 focus:text-white">Submit</button>
 
-    <!-- Pseudo Classes -->
 
-    <!-- Appearance -->
-    <!-- Use appearance-none to reset any browser specific styling on an element. This utility is often used when creating custom form components. -->
+  <!-- Active State Styling -->
+  <button class="bg-black text-white py-3 px-5 rounded-lg m-3 active:bg-yellow-500 active:text-white">Submit</button>
 
-    <!-- Cursor -->
 
-    <!-- Resize -->
+  <!-- Styling based on parent state -->
+  <a href="" class="group block max-w-xs max-auto rounded-lg p-6 bg-white shadow-lg space-y-3 hover:bg-sky-500">
+    <h3 class="group-hover:text-white">Card Title</h3>
+    <p class="group-hover:text-white">This is the card text</p>
+  </a>
 
-    <!-- User Select -->
+  <!-- Pseudo Classes -->
+  <ul>
+    <li class="first:bg-red-200 even:bg-green-500 odd:bg-orange-500">item 1</li>
+    <li class="first:bg-red-200 even:bg-green-500 odd:bg-orange-500">item 2</li>
+    <li class="first:bg-red-200 even:bg-green-500 odd:bg-orange-500">item 3</li>
+    <li class="first:bg-red-200 even:bg-green-500 odd:bg-orange-500">item 4</li>
+    <li class="first:bg-red-200 even:bg-green-500 odd:bg-orange-500">item 5</li>
+    <li class="first:bg-red-200 even:bg-green-500 odd:bg-orange-500">item 6</li>
+  </ul>
 
-    <!-- Smooth Scroll Example -->
-  </body>
+  <!-- Appearance -->
+  <!-- Use appearance-none to reset any browser specific styling on an element. This utility is often used when creating custom form components. -->
+  <select class="appearance-none"> <!-- keep appearance identicial through different browsers -->
+    <option value="yes">yes</option>
+    <option value="no">no</option>
+  </select>
+
+  <!-- Cursor -->
+  <button class="bg-black text-white py-3 px-5 rounded-lg cursor-not-allowed">
+    submit
+  </button>
+  <p class="cursor-pointer">hello</p>
+  <p class="cursor-wait">wait</p>
+
+  <!-- Resize -->
+
+  <!-- User Select -->
+  <div class="select-none">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, enim?</div>
+  <div class="select-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, enim?</div>
+  <div class="select-all">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, enim?</div>
+
+
+  <a href="#item" class="block my-6">go to item</a>
+  <!-- Smooth Scroll Example -->
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet veniam architecto debitis sed tempore quidem id
+    similique fugiat repudiandae minima distinctio deleniti quam accusantium, laborum rerum! Illo, consequatur maxime!
+    Earum quae dicta doloremque laudantium temporibus exercitationem tempore? Voluptate soluta, aliquid perferendis
+    repellendus error praesentium quibusdam deserunt impedit, dolorum accusamus placeat sint, cupiditate consequuntur
+    voluptates doloribus? Ullam omnis similique optio, eos praesentium magnam ratione voluptatem modi molestiae commodi?
+    Magni, aspernatur labore! Excepturi, ipsam consequatur maiores totam cupiditate sint rem amet, reiciendis similique
+    nam facere eveniet distinctio quo molestias velit aliquam, veniam architecto quod beatae. Temporibus expedita
+    accusantium exercitationem atque cumque fugit iste cum in aperiam reprehenderit dignissimos commodi nihil recusandae
+    libero eligendi, provident aut dolore voluptas officia eos! Repellendus soluta minus, illum, ad voluptate deserunt
+    enim laboriosam suscipit quisquam libero debitis quasi nisi ratione ut cum reprehenderit velit. Dignissimos
+    blanditiis velit distinctio asperiores quo sed amet laborum perspiciatis voluptas quas dolore cum tempora omnis
+    possimus eveniet, corrupti, quaerat ipsa esse fugit? Dolorum dolores dolorem adipisci? Quas accusamus quos ratione
+    libero iste alias laudantium omnis nobis animi magnam odit labore ipsam mollitia quae minus exercitationem nisi
+    doloribus, expedita aliquid! Ipsam delectus atque corrupti cum laudantium perspiciatis laborum magni in doloremque
+    molestias sit consequuntur ad provident neque optio tempore dolore sapiente, repellendus earum! Nam similique
+    molestias ipsam ullam laudantium sit magni aut incidunt doloribus! Et praesentium consectetur aperiam sunt vero quae
+    perferendis nam, autem blanditiis necessitatibus, quibusdam est officiis, incidunt quas. Vitae impedit, earum et
+    soluta excepturi maiores labore ipsa velit suscipit, eveniet nesciunt tempora fugit sint laborum quisquam quas
+    delectus doloremque similique architecto cupiditate harum assumenda vel nihil. Libero, quod inventore nisi a optio
+    fugiat magnam maxime. Nostrum possimus quaerat modi sunt error nulla blanditiis sit, ducimus maiores dicta vitae
+    iure tempora illum dolor porro odio, eum ipsum? Quasi ullam ratione dicta cupiditate fugit officia quo dignissimos
+    architecto veniam. Eius ipsum maxime aliquam commodi maiores doloremque corporis voluptates atque aut eaque. Quidem
+    obcaecati excepturi laudantium veniam explicabo officiis, quos sed assumenda ratione quasi quibusdam tempore sit
+    consectetur, mollitia natus soluta qui ad! Incidunt alias aliquid voluptatibus aspernatur quaerat numquam, corporis
+    eveniet eaque nobis recusandae nesciunt tenetur ipsum aut laboriosam quidem quas eos quos. Unde dicta iusto minus
+    minima molestiae facilis sint deleniti architecto a voluptate tempora repellendus quam porro, aut quas
+    necessitatibus libero omnis deserunt. Est totam autem repudiandae quam excepturi, quasi repellendus dolores
+    consectetur, ipsum in dolore, earum ullam animi recusandae.</p>
+
+  <div id="item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique ut vel accusamus! Consequatur illum
+    quasi recusandae soluta quas, inventore velit neque ratione doloribus odit assumenda quo unde laudantium veniam
+    reprehenderit, aliquam aspernatur. Autem sint veritatis vel quo, velit mollitia quae iusto voluptatibus atque.
+    Fugiat amet, laudantium quas reiciendis dolorum cum?</div>
+</body>
+
 </html>
 
 <!-- Cursor
