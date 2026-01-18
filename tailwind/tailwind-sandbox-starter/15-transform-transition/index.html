@@ -1,10 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      twailwind.config = {
+        theme: {
+          extend: {
+            transitionDuration: {
+              2000: "2000ms",
+            },
+          },
+        },
+      };
+    </script>
     <title>Transform & Transition</title>
   </head>
   <body>
@@ -16,6 +27,23 @@
     </button>
 
     <!-- Transition -->
+    <button
+      class="px-8 py-2 m-24 text-white bg-blue-500 rounded hover:bg-blue-700 transition-colors duration-1000"
+    >
+      Click me
+    </button>
+
+    <button
+      class="px-8 py-2 m-24 text-white bg-blue-500 rounded hover:bg-blue-700 hover:opacity-20 transition-transform duration-1000 hover:rotate-12"
+    >
+      Click me
+    </button>
+
+    <img
+      src="../assets/img/img1.jpg"
+      alt=""
+      class="w-48 hover:rotate-180 hover:scale-75 hover:skew-x-12 transition duration-2000"
+    />
 
     <!-- Transition & Transform -->
 
@@ -69,7 +97,7 @@
   duration-500	  transition-duration: 500ms;
   duration-700	  transition-duration: 700ms;
   duration-1000	  transition-duration: 1000ms;
- -->
+  -->
 
 <!-- Timing Function
   ease-linear	      transition-timing-function: linear;
