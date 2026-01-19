@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Borders</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>Borders</title>
-</head>
+  <body>
+    <!-- Border Width & Colors -->
+    <div class="w-96 m-3 p-5 border">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
+    <div class="w-96 m-3 p-5 border-4">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
+    <div class="w-96 m-3 p-5 border-2 border-red-500/60">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
+    <div class="w-96 m-3 p-5 border-x-2 border-yellow-500">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
 
-<body>
-  <!-- Border Width & Colors -->
-  <div class="w-96 m-3 p-5 border">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.</div>
-  <div class="w-96 m-3 p-5 border-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.</div>
-  <div class="w-96 m-3 p-5 border-2 border-red-500/60">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam,
-    at.</div>
-  <div class="w-96 m-3 p-5 border-x-2 border-yellow-500">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Ipsam, at.</div>
+    <!-- Border Radius -->
+    <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-3xl">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
+    <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-full">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
+    <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-t-3xl">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
+    <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-b-3xl">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, at.
+    </div>
 
-  <!-- Border Radius -->
-  <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-3xl">Lorem ipsum dolor sit amet consectetur adipisicing
-    elit. Ipsam, at.</div>
-  <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-full">Lorem ipsum dolor sit amet consectetur adipisicing
-    elit. Ipsam, at.</div>
-  <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-t-3xl">Lorem ipsum dolor sit amet consectetur adipisicing
-    elit. Ipsam, at.</div>
-  <div class="w-96 m-3 p-5 border-2 border-red-500/60 rounded-b-3xl">Lorem ipsum dolor sit amet consectetur adipisicing
-    elit. Ipsam, at.</div>
-
-  <!-- Outline -->
-  <button class="outline outline-4 outline-offset-2 outline-red-500">Click</button>
-
-</body>
-
+    <!-- Outline -->
+    <button class="outline outline-4 outline-offset-2 outline-red-500">
+      Click
+    </button>
+  </body>
 </html>
 
 <!-- Border Widths
@@ -93,7 +102,7 @@
       rounded-2xl	      border-radius: 1rem; /* 16px */
       rounded-3xl	      border-radius: 1.5rem; /* 24px */
       rounded-full	    border-radius: 9999px;
-     -->
+      -->
 
 <!-- Outline
       outline-0	outline-width: 0px;
